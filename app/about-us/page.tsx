@@ -60,7 +60,7 @@ export default function AboutUS() {
     return (
         <main className='flex-1'>
             <section
-                className='w-full py-6 md:py-24 lg:py-32 xl:py-48 bg-black'
+                className='w-full py-12 md:py-28 lg:py-48 xl:py-52 bg-black'
                 style={{
                     backgroundImage:
                         'url(https://www.zuluautoparts.co.za/wp-content/uploads/2022/03/Auto-Parts-1400x500.jpg)',
