@@ -1,8 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/alt-text */
+import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ShieldCheck, Truck, Users } from 'lucide-react';
-import Image from 'next/image';
+import Link from 'next/link';
+import { FaWhatsapp } from 'react-icons/fa';
 
 export default function AboutUS() {
     const sections = [
@@ -21,16 +23,16 @@ export default function AboutUS() {
         },
         {
             title: 'Our Range and Capabilities',
-            content: `With a manufacturing facility in India and a robust network across the GCC, we have the capacity
-                to supply a vast range of automotive spare parts. Our superior product range means we can deliver your
-                orders faster and at competitive prices.`,
+            content: `With a manufacturing facility in India and a robust network across the GCC & Africa, 
+                we have the capacity to supply a vast range of automotive spare parts. 
+                Our superior product range means we can deliver your orders faster and at competitive prices.`,
         },
         {
             title: 'Customer Support and Service',
-            content: `Our online shop makes it easy for you to browse for specific products using your vehicle's make and
-                model. If you have trouble finding a product, please contact us with your car details. Our experienced
-                staff will assist you in locating any parts you may need. At Amip Trading Co. L.L.C., we have access to
-                almost every aftermarket part for your car, so "if they make it, we sell it!"`,
+            content: `Our online shop makes it easy for you to browse for specific products using your vehicle's make and model. 
+                If you have trouble finding a product, please contact us with your car details. 
+                Our experienced staff will assist you in locating any parts you may need. At Amip Trading Co. L.L.C., 
+                we have access to almost every aftermarket part & Genuine as well for your car, so "if they make it, we sell it!"`,
         },
         {
             title: 'Our Commitment',
@@ -45,14 +47,20 @@ export default function AboutUS() {
             name: 'Harshal Doshi',
             position: 'Owner',
             image: '/public/person_placeholder.jpg',
-            phoneNumber: '+971 55 9981864',
+            phone: {
+                number: '971559981864',
+                label: '+971 55 9981864',
+            },
             email: 'amipdxb@gmail.com',
         },
         {
             name: 'Kalpesh Doshi',
             position: 'Manager',
             image: '/public/person_placeholder.jpg',
-            phoneNumber: '+971 55 9981864',
+            phone: {
+                number: '971559981864',
+                label: '+971 55 9981864',
+            },
             email: 'amipdxb@gmail.com',
         },
     ];
@@ -134,8 +142,19 @@ export default function AboutUS() {
                                     className='w-[200px] h-[200px] rounded-2xl'
                                     src='https://thumbs.dreamstime.com/b/homem-cinzento-do-placeholder-da-foto-pessoa-136701243.jpg'
                                 />
-                                <p className='text-sm text-gray-500'>{member.position}</p>
-                                <p className='text-sm text-gray-500'>{member.phoneNumber}</p>
+                                <p className='text-sm text-gray-500 mt-3'>{member.position}</p>
+                                <div className='text-sm text-gray-500'>
+                                    <Button variant='link'>
+                                        <FaWhatsapp size={20} />
+                                        <span>
+                                            <Link
+                                                href={`https://api.whatsapp.com/send?phone=${member.phone.number}&text=Hello`}
+                                            >
+                                                {member.phone.label}
+                                            </Link>
+                                        </span>
+                                    </Button>
+                                </div>
                                 <p className='text-sm text-gray-500'>{member.email}</p>
                             </div>
                         ))}
