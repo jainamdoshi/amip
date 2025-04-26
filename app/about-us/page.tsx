@@ -55,11 +55,11 @@ export default function AboutUS() {
         },
         {
             name: 'Kalpesh Doshi',
-            position: 'Manager',
+            position: 'Owner',
             image: '/public/person_placeholder.jpg',
             phone: {
-                number: '971559981864',
-                label: '+971 55 9981864',
+                number: '971547488795',
+                label: '+971 54 7488795',
             },
             email: 'amipdxb@gmail.com',
         },
@@ -70,8 +70,7 @@ export default function AboutUS() {
             <section
                 className='w-full py-12 md:py-28 lg:py-48 xl:py-52 bg-black'
                 style={{
-                    backgroundImage:
-                        'url(https://www.zuluautoparts.co.za/wp-content/uploads/2022/03/Auto-Parts-1400x500.jpg)',
+                    backgroundImage: 'url(https://www.zuluautoparts.co.za/wp-content/uploads/2022/03/Auto-Parts-1400x500.jpg)',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                 }}
@@ -94,9 +93,7 @@ export default function AboutUS() {
             </div>
             <section className='w-full py-12 md:py-24 lg:py-32'>
                 <div className='px-4 md:px-6'>
-                    <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8 text-center'>
-                        Why Choose Us
-                    </h2>
+                    <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8 text-center'>Why Choose Us</h2>
                     <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
                         <Card>
                             <CardContent className='flex flex-col items-center space-y-2 p-6'>
@@ -112,8 +109,7 @@ export default function AboutUS() {
                                 <Truck className='h-12 w-12 text-primary' />
                                 <h3 className='text-xl font-bold'>Fast Delivery</h3>
                                 <p className='text-sm text-gray-500 text-center'>
-                                    With our extensive network, we ensure quick and efficient delivery across the
-                                    country.
+                                    With our extensive network, we ensure quick and efficient delivery across the country.
                                 </p>
                             </CardContent>
                         </Card>
@@ -131,9 +127,7 @@ export default function AboutUS() {
             </section>
             <section className='w-full py-12 md:py-24 lg:py-32 bg-gray-100'>
                 <div className='px-4 md:px-6'>
-                    <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8 text-center'>
-                        Our Team
-                    </h2>
+                    <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8 text-center'>Our Team</h2>
                     <div className='flex flex-row flex-wrap justify-around'>
                         {teamMembers.map((member) => (
                             <div key={member.name} className='flex flex-col items-center my-2'>
@@ -147,9 +141,7 @@ export default function AboutUS() {
                                     <Button variant='link'>
                                         <FaWhatsapp size={20} />
                                         <span>
-                                            <Link
-                                                href={`https://api.whatsapp.com/send?phone=${member.phone.number}&text=Hello`}
-                                            >
+                                            <Link href={`https://api.whatsapp.com/send?phone=${member.phone.number}&text=Hello`}>
                                                 {member.phone.label}
                                             </Link>
                                         </span>
@@ -166,11 +158,7 @@ export default function AboutUS() {
 }
 
 function SubTitle({ title }: { title: string }) {
-    return (
-        <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center content-center'>
-            {title}
-        </h2>
-    );
+    return <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center content-center'>{title}</h2>;
 }
 
 function Section({ title, content }: { title: string; content: string }) {
