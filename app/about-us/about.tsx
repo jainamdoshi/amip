@@ -41,7 +41,7 @@ export default function About() {
                     viewport={{ once: true, margin: '-100px' }}
                     className='text-center mb-12'
                 >
-                    <h2 className='text-3xl md:text-4xl font-bold mb-4'>About Amip Trading Co. L.L.C.</h2>
+                    <h2 className='text-3xl md:text-4xl font-bold mb-4'>About Amip Trading</h2>
                     <p className='text-lg text-gray-600 max-w-3xl mx-auto'>
                         Your trusted partner in automotive spare parts since 2003, delivering the RIGHT PARTS, at the RIGHT PRICE, RIGHT
                         NOW!
