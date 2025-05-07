@@ -114,7 +114,7 @@ export default function Hero() {
                             <Input
                                 className='flex-grow'
                                 placeholder='Search by part name, number or category...'
-                                icon={<Search className='h-5 w-5 text-gray-400' />}
+                                // icon={<Search className='h-5 w-5 text-gray-400' />}
                             />
                             <Button className='bg-red-500 hover:bg-red-600 text-white px-6'>
                                 <Search className='h-4 w-4 mr-2' />
