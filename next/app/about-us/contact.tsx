@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/next/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { Clock, Mail, MapPin, Phone } from 'lucide-react';
 import Link from 'next/link';

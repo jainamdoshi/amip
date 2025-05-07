@@ -1,8 +1,8 @@
 'use client';
 
-import Logo from '@/next/components/logo';
-import { Button } from '@/next/components/ui/button';
-import { cn } from '@/next/lib/utils';
+import Logo from '@/components/logo';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { Menu, Phone, Search, ShoppingCart, User, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
