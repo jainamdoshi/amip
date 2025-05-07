@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 import uvicorn
 from apps.fastapiApp.auth.src import middlewares
@@ -64,8 +65,9 @@ def start_server(
             ),
             extra={"logType": LogType.STARTUP.value},
         )
+        os.environ["PYTHONPATH"] = str(Path(__file__).resolve().parent.parent.parent.parent)
         os.system(
-            f"gunicorn "
+            f"PYTHONPATH={os.environ['PYTHONPATH']} gunicorn "
             f"-w {workers} "
             f"--threads {threads} "
             f"-k uvicorn.workers.UvicornWorker "

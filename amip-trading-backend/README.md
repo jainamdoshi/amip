@@ -1,3 +1,6 @@
+# amip - trading backend
+
+##### using FASTAPI (python)
 # AMIP Trading Backend
 
 A FastAPI-based backend service for the AMIP Trading platform that provides catalog search and management capabilities.
