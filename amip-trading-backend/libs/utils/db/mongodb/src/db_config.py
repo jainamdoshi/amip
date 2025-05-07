@@ -1,0 +1,9 @@
+import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+MONGODB_URI = os.getenv("MONGODB_URI")
+MONGODB_DATABASE_NAME = os.getenv("MONGODB_DATABASE_NAME")
+MONGODB_USERS_COLLECTION_NAME = os.getenv("MONGODB_USERS_COLLECTION_NAME")
