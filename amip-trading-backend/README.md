@@ -48,12 +48,27 @@ The API documentation is available at:
 - Swagger UI: `http://localhost:8000/docs`
 - ReDoc: `http://localhost:8000/redoc`
 
+### User ID Generation
+Before using the search endpoints, new users must generate a user ID:
+
+**Endpoint:** `POST /catalog/generate-user-id`
+
+**Response:**
+```json
+{
+    "success": true,
+    "user_id": "generated_user_id_string"
+}
+```
+
 ### Key Endpoints
 
 #### 1. Catalog Search
 **Endpoint:** `POST /catalog/search`
 
 Search for products in the catalog based on product name or number.
+
+**Important:** You must first generate a user ID using `/catalog/generate-user-id` if you are a new user. The generated `user_id` is required for this endpoint.
 
 **Parameters:**
 - `page` (query, optional): Page number for pagination (default: 1)
@@ -99,6 +114,8 @@ Note: Either `product_name` or `product_number` must be provided.
 
 Cross-reference search for products across catalogs using product ID.
 
+**Important:** You must first generate a user ID using `/catalog/generate-user-id` if you are a new user. The generated `user_id` is required for this endpoint.
+
 **Parameters:**
 - `page` (query, optional): Page number for pagination (default: 1)
 - `page_size` (query, optional): Number of items per page (default: 10)
@@ -140,7 +157,7 @@ Cross-reference search for products across catalogs using product ID.
 
 - `GET /catalog/`: Index endpoint
 - `GET /catalog/health-check`: Health check endpoint
-- `POST /catalog/generate-user-id`: Generate a new user ID
+- `POST /catalog/generate-user-id`: Generate a new user ID (required before using search endpoints)
 
 ## Error Handling
 
