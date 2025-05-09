@@ -9,8 +9,8 @@ from apps.fastapiApp.auth.src.service import (
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from libs.fastapiApp.src import limiter
 from libs.utils.common.custom_logger import CustomLogger
-from slowapi.decorator import limiter
 
 log = CustomLogger("AuthRoute")
 logger, listener = log.get_logger()
@@ -26,7 +26,6 @@ security = HTTPBearer()
 async def create_api_key(request:Request,credentials:HTTPAuthorizationCredentials = Depends(security)):
     """Generate a new API key with 90 days validity"""
     authorization = credentials.credentials
-    print("authorization", authorization)
 
     if not authorization or not authorization.startswith("Basic"):
         logger.error("Invalid or missing Authorization header")

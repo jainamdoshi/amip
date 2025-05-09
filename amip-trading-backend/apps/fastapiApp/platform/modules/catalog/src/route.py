@@ -11,8 +11,8 @@ from apps.fastapiApp.platform.modules.catalog.src.service import (
 )
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse
+from libs.fastapiApp.src import limiter
 from libs.utils.common.custom_logger import CustomLogger
-from slowapi.decorator import limiter
 
 log = CustomLogger("CatalogRoute")
 
