@@ -1,10 +1,10 @@
-from libs.fastapiApp.platform.modules.catalog.src.enums import AvailableCatalogs
 from libs.utils.common.custom_logger import (
     Colors,
     CustomLogger,
     LogType,
     color_string,
 )
+from libs.utils.common.enums import AvailableCatalogs
 from libs.utils.db.mongodb.src.helpers import initiate_data_repositories
 
 log = CustomLogger(
