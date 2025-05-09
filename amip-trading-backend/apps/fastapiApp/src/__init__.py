@@ -8,6 +8,7 @@ from apps.fastapiApp.platform.modules.core.src import core_route
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from libs.fastapiApp.platform.modules.catalog.src import initiate_catalogs
 from libs.utils.common.custom_logger import CustomLogger, LogType
 from libs.utils.common.custom_logger.constants import Colors
 from libs.utils.common.custom_logger.helper import color_string
@@ -23,6 +24,7 @@ amip_trading_backend_app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc",
     middleware=middlewares,
+    lifespan=initiate_catalogs
 )
 
 

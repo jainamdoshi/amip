@@ -9,10 +9,11 @@ from libs.utils.db.mongodb.src.helpers import initiate_data_repositories
 
 log = CustomLogger(
     "JinkuCatalog",
-    queue_logger=False,
+    queue_logger=True,
     is_request=False
 )
-logger = log.get_logger()
+logger, listener = log.get_logger()
+listener.start()
 
 
 def initiate_jinku_catalog():
