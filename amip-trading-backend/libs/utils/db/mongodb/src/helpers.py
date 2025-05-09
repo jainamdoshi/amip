@@ -1,8 +1,13 @@
+from datetime import datetime
+
 from bson import ObjectId
-from libs.fastapiApp.platform.modules.catalog.src.enums import AvailableCatalogs
+from libs.utils.common.enums import AvailableCatalogs
 from libs.utils.db.mongodb.src.base_repository import BaseRepository
 from libs.utils.db.mongodb.src.connection import db
-from libs.utils.db.mongodb.src.db_config import MONGODB_USERS_COLLECTION_NAME
+from libs.utils.db.mongodb.src.db_config import (
+    MONGODB_AUTH_COLLECTION_NAME,
+    MONGODB_USERS_COLLECTION_NAME,
+)
 
 data_repository_hashmap ={}
 
@@ -15,6 +20,14 @@ def get_user_repository() -> BaseRepository:
         db[MONGODB_USERS_COLLECTION_NAME]
     )
 
+def get_auth_repository() -> BaseRepository:
+    class Repository(BaseRepository):
+        def __init__(self, collection):
+            super().__init__(collection=collection, timestamps=True)
+
+    return Repository(
+        db[MONGODB_AUTH_COLLECTION_NAME]
+    )
 def get_data_repository(catalog_name:AvailableCatalogs) -> BaseRepository:
     return data_repository_hashmap[catalog_name]
 
@@ -51,4 +64,11 @@ def convert_object_id_to_string(obj: list) -> list:
         for key in keys_to_delete:
             del item[key]
 
+    return obj
+
+def convert_datetime_to_string(obj: list) -> list:
+    for item in obj:
+        for key, value in item.items():
+            if isinstance(value, datetime):
+                item[key] = value.strftime("%Y-%m-%d %H:%M:%S")
     return obj

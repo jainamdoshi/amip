@@ -1,9 +1,12 @@
+from datetime import datetime
+
 from bson import ObjectId
-from libs.fastapiApp.platform.modules.catalog.src.enums import AvailableCatalogs
 from libs.utils.common.custom_logger import CustomLogger
+from libs.utils.common.enums import AvailableCatalogs
 from libs.utils.common.regex_helper import build_regex_query
 from libs.utils.db.mongodb.src.helpers import (
     convert_object_id_to_string,
+    get_auth_repository,
     get_data_repository,
     get_user_repository,
 )
@@ -13,6 +16,51 @@ class DbOperations:
     log = CustomLogger("AnalyticsOperations")
     logger, listener = log.get_logger()
     listener.start()
+
+
+    @classmethod
+    async def save_api_key_in_db(
+        cls,
+        request_id: str,
+        api_key: str,
+        expires_at: datetime,
+    ):
+        try:
+            auth_repository = get_auth_repository()
+            await auth_repository.insert_one(
+                {
+                    "api_key": api_key,
+                    "expires_at": expires_at,
+                    "is_active": True,
+                }
+            )
+        except Exception as error:
+            cls.logger.warning(f"Error while saving api_key to db, {error}")
+
+    @classmethod
+    async def get_api_key_from_db(
+        cls,
+        api_key: str,
+    ):
+        try:
+            auth_repository = get_auth_repository()
+            return await auth_repository.find_one({"api_key": api_key})
+        except Exception as error:
+            cls.logger.warning(f"Error while getting api_key from db, {error}")
+            return None
+
+    @classmethod
+    async def expire_api_key_in_db(
+        cls,
+        api_key: str,
+    ):
+        try:
+            auth_repository = get_auth_repository()
+            result = await auth_repository.update_one({"api_key": api_key}, {"$set": {"is_active": False}})
+            return result.modified_count > 0
+        except Exception as error:
+            cls.logger.warning(f"Error while expiring api_key in db, {error}")
+            return False
 
     @classmethod
     async def save_user_id_in_db(
