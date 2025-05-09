@@ -1,5 +1,5 @@
-from libs.fastapiApp.platform.modules.catalog.src.enums import AvailableCatalogs
 from libs.utils.common.custom_logger import CustomLogger
+from libs.utils.common.enums import AvailableCatalogs
 from pydantic import BaseModel, Field, model_validator
 
 log = CustomLogger("CatalogDTO")
