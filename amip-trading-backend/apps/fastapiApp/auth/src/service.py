@@ -25,7 +25,6 @@ load_dotenv()
 
 
 async def verify_credentials(authorization: str) -> bool:
-    logger.debug(f"Authorization: {authorization}")
     _, encoded = authorization.split(" ", 1)
     decoded = base64.b64decode(encoded).decode("ascii")
     request_auth_username, request_auth_password = decoded.split(":", 1)
