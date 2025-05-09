@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 import uvicorn
-from apps.fastapiApp.auth.src import middlewares
+from apps.fastapiApp.auth.src import auth_route, middlewares
 from apps.fastapiApp.platform.modules.catalog.src import catalog_route
 from apps.fastapiApp.platform.modules.core.src import core_route
 from dotenv import load_dotenv
@@ -28,6 +28,7 @@ amip_trading_backend_app = FastAPI(
 
 amip_trading_backend_app.include_router(core_route)
 amip_trading_backend_app.include_router(catalog_route)
+amip_trading_backend_app.include_router(auth_route)
 
 
 def start_server(
