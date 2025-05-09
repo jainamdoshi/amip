@@ -9,19 +9,17 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from libs.fastapiApp.platform.modules.catalog.src import initiate_catalogs
+from libs.fastapiApp.src import custom_rate_limit_handler, limiter
 from libs.utils.common.custom_logger import CustomLogger, LogType
 from libs.utils.common.custom_logger.constants import Colors
 from libs.utils.common.custom_logger.helper import color_string
-from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
-from slowapi.util import get_remote_address
 
 load_dotenv()
 
 log = CustomLogger("Amip Trading Backend App", queue_logger=False, is_request=False)
 logger = log.get_logger()
-
-limiter = Limiter(key_func=get_remote_address)
 
 amip_trading_backend_app = FastAPI(
     title="Application: Amip Trading Backend App",
@@ -33,7 +31,7 @@ amip_trading_backend_app = FastAPI(
 )
 
 amip_trading_backend_app.state.limiter = limiter
-amip_trading_backend_app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+amip_trading_backend_app.add_exception_handler(RateLimitExceeded, custom_rate_limit_handler)
 
 amip_trading_backend_app.include_router(core_route)
 amip_trading_backend_app.include_router(catalog_route)
