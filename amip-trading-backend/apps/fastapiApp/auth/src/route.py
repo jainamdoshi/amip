@@ -10,6 +10,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from libs.utils.common.custom_logger import CustomLogger
+from slowapi.decorator import limiter
 
 log = CustomLogger("AuthRoute")
 logger, listener = log.get_logger()
@@ -19,7 +20,9 @@ auth_route = APIRouter(prefix="/auth", tags=["Auth Routes"])
 
 security = HTTPBearer()
 
+
 @auth_route.post("/api-key",response_model=APIKeyOutputModel)
+@limiter.limit("1/minute")
 async def create_api_key(request:Request,credentials:HTTPAuthorizationCredentials = Depends(security)):
     """Generate a new API key with 90 days validity"""
     authorization = credentials.credentials

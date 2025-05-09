@@ -12,6 +12,7 @@ from apps.fastapiApp.platform.modules.catalog.src.service import (
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse
 from libs.utils.common.custom_logger import CustomLogger
+from slowapi.decorator import limiter
 
 log = CustomLogger("CatalogRoute")
 
@@ -64,6 +65,7 @@ async def generate_user_id():
 
 
 @catalog_route.post("/search", response_model=SearchOutputModel)
+@limiter.limit("10/minute")
 @log.track
 async def search_data(
     request: Request, request_data: SearchInputModel, page: int = 1, page_size: int = 10
@@ -84,6 +86,7 @@ async def search_data(
 
 
 @catalog_route.post("/cross-search")
+@limiter.limit("10/minute")
 @log.track
 async def cross_search_data(
     request: Request,
