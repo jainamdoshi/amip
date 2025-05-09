@@ -48,6 +48,31 @@ The API documentation is available at:
 - Swagger UI: `http://localhost:8000/docs`
 - ReDoc: `http://localhost:8000/redoc`
 
+### Authentication
+Before using any endpoints, you must generate an API key:
+
+**Endpoint:** `POST /auth/api-key`
+
+**Authentication:**
+Basic Authentication is required:
+```
+Authorization: Basic base64(username:password)
+```
+
+**Response:**
+```json
+{
+    "success": true,
+    "api_key": "generated_api_key_string",
+    "expires_at": "expire_date"
+}
+```
+
+**Important:** All subsequent API calls must include the generated API key in the request header:
+```
+X-API-KEY: your_generated_api_key
+```
+
 ### User ID Generation
 Before using the search endpoints, new users must generate a user ID:
 
@@ -199,3 +224,8 @@ amip-trading-backend/
 │       └── db/
 └── requirements.txt
 ```
+
+## Database Collections
+
+Important collection names:
+- Jinku Catalog: `jinku_catalog_data`
