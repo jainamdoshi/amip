@@ -27,11 +27,13 @@ export default function Footer() {
                         <ul className='space-y-4'>
                             <li className='flex items-start'>
                                 <MapPin className='h-5 w-5 text-red-500 mr-3 mt-0.5' />
-                                {/* <span className='text-gray-400'>
-                                    123 Auto Parts Street
+                                <span className='text-gray-400'>
+                                    Shop No. 5, Abbdullah Mohd Saeed Al Ghobash
                                     <br />
-                                    New York, NY 10001
-                                </span> */}
+                                    Naif Area, Near Tabha (Sutchi) Hotel
+                                    <br />
+                                    Opposite 7 Stage Building Gate 2
+                                </span>
                             </li>
                             <li className='flex items-center'>
                                 <Phone className='h-5 w-5 text-red-500 mr-3' />
