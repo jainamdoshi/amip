@@ -72,7 +72,7 @@ export default function Hero() {
                     </p>
 
                     {/* Search Panel */}
-                    <div className='bg-white p-6 rounded-lg shadow-lg max-w-3xl'>
+                    {/* <div className='bg-white p-6 rounded-lg shadow-lg max-w-3xl'>
                         <h2 className='text-xl font-semibold mb-4 text-gray-800'>Find the Right Part</h2>
                         <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-4'>
                             <div>
@@ -121,7 +121,7 @@ export default function Hero() {
                                 Find Parts
                             </Button>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* <div className='flex space-x-6 mt-10'>
                         <Button variant='outline' className='border-white hover:bg-white hover:text-black'>
