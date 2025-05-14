@@ -37,3 +37,4 @@
 /next/next-env.d.ts
 
 .venv/
+venv/

@@ -45,6 +45,7 @@ export default function Header() {
                         )}
                     >
                         <Link href='/about-us'>About</Link>
+                        <Link href='/catalog'>Catalog</Link>
                     </Button>
                 </div>
 
