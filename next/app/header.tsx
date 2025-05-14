@@ -45,6 +45,16 @@ export default function Header() {
                         )}
                     >
                         <Link href='/about-us'>About</Link>
+                    </Button>
+                    <Button
+                        variant='ghost'
+                        size='sm'
+                        asChild
+                        className={cn(
+                            'transition-colors duration-300',
+                            isScrolled ? 'text-gray-800 hover:bg-gray-100' : 'text-white hover:bg-white/20'
+                        )}
+                    >
                         <Link href='/catalog'>Catalog</Link>
                     </Button>
                 </div>
