@@ -1,4 +1,4 @@
-from apps.fastapiApp.auth.src.service import verify_api_key
+# from apps.fastapiApp.auth.src.service import verify_api_key
 from apps.fastapiApp.platform.modules.catalog.src.dto import (
     CrossSearchInputModel,
     SearchInputModel,
@@ -9,7 +9,7 @@ from apps.fastapiApp.platform.modules.catalog.src.service import (
     generate_new_user_id,
     search_and_paginate_data,
 )
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 from libs.fastapiApp.src import limiter
 from libs.utils.common.custom_logger import CustomLogger
@@ -19,7 +19,8 @@ log = CustomLogger("CatalogRoute")
 logger, listener = log.get_logger()
 listener.start()
 
-catalog_route = APIRouter(prefix="/catalog", tags=["Catalog Routes"],dependencies=[Depends(verify_api_key)])
+# catalog_route = APIRouter(prefix="/catalog", tags=["Catalog Routes"],dependencies=[Depends(verify_api_key)])
+catalog_route = APIRouter(prefix="/catalog", tags=["Catalog Routes"])
 
 
 @catalog_route.get("/")
