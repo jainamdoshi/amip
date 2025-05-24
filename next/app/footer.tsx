@@ -30,7 +30,7 @@ export default function Footer() {
                                 <span className='text-gray-400'>
                                     Shop No. 5, Abbdullah Mohd Saeed Al Ghobash
                                     <br />
-                                    Naif Area, Near Tabha (Sutchi) Hotel
+                                    Naif Area, Near Tanha (Sutchi) Hotel
                                     <br />
                                     Opposite 7 Stage Building Gate 2
                                 </span>
