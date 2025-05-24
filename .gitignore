@@ -26,7 +26,7 @@
 /next/yarn-error.log*
 
 # local env files
-/next/.env*.local
+/next/.env*
 
 # vercel
 /next/.vercel

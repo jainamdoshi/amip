@@ -88,6 +88,15 @@ export default function Header() {
                                 About
                             </Link>
                         </div>
+                        <div className='space-y-6'>
+                            <Link
+                                href='/catalog'
+                                className='block text-lg font-medium hover:text-primary'
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                Catalog
+                            </Link>
+                        </div>
                     </div>
                 </div>
             )}

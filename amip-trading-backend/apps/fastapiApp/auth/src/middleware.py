@@ -99,7 +99,7 @@ middlewares = [
         RawContextMiddleware,
         plugins=[plugins.RequestIdPlugin(force_new_uuid=True)],
     ),
-    Middleware(LoggingMiddleware),
+    # Middleware(LoggingMiddleware),
     Middleware(
         CORSMiddleware,
         allow_origins=["*"],

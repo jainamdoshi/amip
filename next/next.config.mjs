@@ -1,4 +1,16 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'www.jikiu.com',
+                port: '',
+                pathname: '**',
+                // search: '',
+            },
+        ],
+    },
+};
 
 export default nextConfig;

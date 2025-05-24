@@ -9,96 +9,101 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const products = [
     {
         id: 1,
-        name: 'Premium Brake Pads',
-        category: 'brakes',
+        name: 'ROD/ARM BUSH RUBBER',
+        category: 'suspension',
         price: 89.99,
         rating: 4.8,
-        image: 'https://images.pexels.com/photos/4489732/pexels-photo-4489732.jpeg',
+        image: 'https://www.jikiu.com/images/069d3bb002acd8d7dd095917f9efe4cb/thumb_images/6c9c8956817e303e7b7692b7d34dce02.jpg',
         discount: 15,
         tag: 'Best Seller',
         stock: 42,
     },
-    {
-        id: 2,
-        name: 'Heavy Duty Alternator',
-        category: 'electrical',
-        price: 149.99,
-        rating: 4.7,
-        image: 'https://images.pexels.com/photos/3807172/pexels-photo-3807172.jpeg',
-        discount: 0,
-        tag: '',
-        stock: 18,
-    },
-    {
-        id: 3,
-        name: 'Engine Oil Filter',
-        category: 'filters',
-        price: 12.99,
-        rating: 4.5,
-        image: 'https://images.pexels.com/photos/3807195/pexels-photo-3807195.jpeg',
-        discount: 0,
-        tag: '',
-        stock: 120,
-    },
-    {
-        id: 4,
-        name: 'Performance Spark Plugs',
-        category: 'engine',
-        price: 24.99,
-        rating: 4.9,
-        image: 'https://images.pexels.com/photos/2244746/pexels-photo-2244746.jpeg',
-        discount: 10,
-        tag: 'Hot Deal',
-        stock: 35,
-    },
-    {
-        id: 5,
-        name: 'Power Steering Pump',
-        category: 'steering',
-        price: 129.99,
-        rating: 4.6,
-        image: 'https://images.pexels.com/photos/188777/pexels-photo-188777.jpeg',
-        discount: 0,
-        tag: '',
-        stock: 14,
-    },
-    {
-        id: 6,
-        name: 'Suspension Control Arm',
-        category: 'suspension',
-        price: 79.99,
-        rating: 4.7,
-        image: 'https://images.pexels.com/photos/190574/pexels-photo-190574.jpeg',
-        discount: 5,
-        tag: '',
-        stock: 27,
-    },
-    {
-        id: 7,
-        name: 'LED Headlight Bulbs',
-        category: 'electrical',
-        price: 49.99,
-        rating: 4.8,
-        image: 'https://images.pexels.com/photos/210158/pexels-photo-210158.jpeg',
-        discount: 0,
-        tag: 'New Arrival',
-        stock: 50,
-    },
-    {
-        id: 8,
-        name: 'High Flow Air Filter',
-        category: 'filters',
-        price: 29.99,
-        rating: 4.5,
-        image: 'https://images.pexels.com/photos/4489794/pexels-photo-4489794.jpeg',
-        discount: 0,
-        tag: '',
-        stock: 65,
-    },
+    // {
+    //     product_name: 'ROD/ARM BUSH RUBBER',
+    //     product_image: ['https://www.jikiu.com/images/069d3bb002acd8d7dd095917f9efe4cb/thumb_images/6c9c8956817e303e7b7692b7d34dce02.jpg'],
+    // },
+    // {
+    //     id: 2,
+    //     name: 'Heavy Duty Alternator',
+    //     category: 'electrical',
+    //     price: 149.99,
+    //     rating: 4.7,
+    //     image: 'https://images.pexels.com/photos/3807172/pexels-photo-3807172.jpeg',
+    //     discount: 0,
+    //     tag: '',
+    //     stock: 18,
+    // },
+    // {
+    //     id: 3,
+    //     name: 'Engine Oil Filter',
+    //     category: 'filters',
+    //     price: 12.99,
+    //     rating: 4.5,
+    //     image: 'https://images.pexels.com/photos/3807195/pexels-photo-3807195.jpeg',
+    //     discount: 0,
+    //     tag: '',
+    //     stock: 120,
+    // },
+    // {
+    //     id: 4,
+    //     name: 'Performance Spark Plugs',
+    //     category: 'engine',
+    //     price: 24.99,
+    //     rating: 4.9,
+    //     image: 'https://images.pexels.com/photos/2244746/pexels-photo-2244746.jpeg',
+    //     discount: 10,
+    //     tag: 'Hot Deal',
+    //     stock: 35,
+    // },
+    // {
+    //     id: 5,
+    //     name: 'Power Steering Pump',
+    //     category: 'steering',
+    //     price: 129.99,
+    //     rating: 4.6,
+    //     image: 'https://images.pexels.com/photos/188777/pexels-photo-188777.jpeg',
+    //     discount: 0,
+    //     tag: '',
+    //     stock: 14,
+    // },
+    // {
+    //     id: 6,
+    //     name: 'Suspension Control Arm',
+    //     category: 'suspension',
+    //     price: 79.99,
+    //     rating: 4.7,
+    //     image: 'https://images.pexels.com/photos/190574/pexels-photo-190574.jpeg',
+    //     discount: 5,
+    //     tag: '',
+    //     stock: 27,
+    // },
+    // {
+    //     id: 7,
+    //     name: 'LED Headlight Bulbs',
+    //     category: 'electrical',
+    //     price: 49.99,
+    //     rating: 4.8,
+    //     image: 'https://images.pexels.com/photos/210158/pexels-photo-210158.jpeg',
+    //     discount: 0,
+    //     tag: 'New Arrival',
+    //     stock: 50,
+    // },
+    // {
+    //     id: 8,
+    //     name: 'High Flow Air Filter',
+    //     category: 'filters',
+    //     price: 29.99,
+    //     rating: 4.5,
+    //     image: 'https://images.pexels.com/photos/4489794/pexels-photo-4489794.jpeg',
+    //     discount: 0,
+    //     tag: '',
+    //     stock: 65,
+    // },
 ];
 
 export default function FeaturedProducts() {
@@ -137,8 +142,8 @@ export default function FeaturedProducts() {
                             <TabsTrigger value='all' className='data-[state=active]:bg-red-500 data-[state=active]:text-white'>
                                 All Products
                             </TabsTrigger>
-                            <TabsTrigger value='engine' className='data-[state=active]:bg-red-500 data-[state=active]:text-white'>
-                                Engine
+                            <TabsTrigger value='suspension' className='data-[state=active]:bg-red-500 data-[state=active]:text-white'>
+                                Suspension
                             </TabsTrigger>
                             <TabsTrigger value='brakes' className='data-[state=active]:bg-red-500 data-[state=active]:text-white'>
                                 Brakes
@@ -170,12 +175,12 @@ export default function FeaturedProducts() {
                                 )} */}
 
                                 <div className='relative h-56 overflow-hidden'>
-                                    {/* <Image
+                                    <Image
                                         src={product.image}
                                         alt={product.name}
                                         fill
                                         className='object-cover transition-transform duration-500 group-hover:scale-110'
-                                    /> */}
+                                    />
 
                                     <div className='absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100'>
                                         <div className='flex gap-2'>
@@ -185,9 +190,11 @@ export default function FeaturedProducts() {
                                             <Button size='icon' variant='secondary' className='rounded-full'>
                                                 <Heart className='h-4 w-4' />
                                             </Button> */}
-                                            <Button size='icon' variant='secondary' className='rounded-full'>
-                                                <Eye className='h-4 w-4' />
-                                            </Button>
+                                            <Link href={`/catalog?product_name=${encodeURIComponent(product.name)}`}>
+                                                <Button size='icon' variant='secondary' className='rounded-full'>
+                                                    <Eye className='h-4 w-4' />
+                                                </Button>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>

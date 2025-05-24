@@ -30,7 +30,7 @@ async def generate_new_user_id():
     return user_id
 
 
-@log.track
+# @log.track
 async def search_and_paginate_data(
     request_data: SearchInputModel, page: int, page_size: int
 ):

@@ -1,119 +1,46 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { Input } from '@/components/ui/input';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Search, ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-    ColumnDef,
-    flexRender,
-    getCoreRowModel,
-    getSortedRowModel,
-    getFilteredRowModel,
-    useReactTable,
-    SortingState,
-} from '@tanstack/react-table';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { useQuery } from '@tanstack/react-query';
+import { Cell, ColumnDef, flexRender, getCoreRowModel, Table as TableType, useReactTable } from '@tanstack/react-table';
+import { ArrowUpDown, Loader2 } from 'lucide-react';
 import Image from 'next/image';
-
-interface Product {
-    product_name: string;
-    product_number: string;
-    product_description: string;
-    jinku_product_id: string;
-    owner: string;
-    specifications: string[];
-    product_image: string;
-}
-
-const products: Product[] = [
-    {
-        product_name: 'High Performance Brake Pad',
-        product_number: 'BP-2023-001',
-        product_description: 'Premium ceramic brake pads for superior stopping power',
-        jinku_product_id: 'JK-001',
-        owner: 'ATCO Parts',
-        specifications: ['Ceramic compound', 'Dust-free', 'Temperature resistant'],
-        product_image: '#',
-    },
-    {
-        product_name: 'Engine Oil Filter',
-        product_number: 'OF-2023-002',
-        product_description: 'Advanced filtration oil filter for maximum engine protection',
-        jinku_product_id: 'JK-002',
-        owner: 'ATCO Parts',
-        specifications: ['99% filtration efficiency', 'Extended life', 'Universal fit'],
-        product_image: '#',
-    },
-    {
-        product_name: 'Spark Plug Set',
-        product_number: 'SP-2023-003',
-        product_description: 'High-performance iridium spark plugs',
-        jinku_product_id: 'JK-003',
-        owner: 'ATCO Parts',
-        specifications: ['Iridium tip', 'Pre-gapped', 'Extended lifespan'],
-        product_image: '#',
-    },
-    {
-        product_name: 'Spark Plug Set',
-        product_number: 'SP-2023-003',
-        product_description: 'High-performance iridium spark plugs',
-        jinku_product_id: 'JK-003',
-        owner: 'ATCO Parts',
-        specifications: ['Iridium tip', 'Pre-gapped', 'Extended lifespan'],
-        product_image: '#',
-    },
-    {
-        product_name: 'Spark Plug Set',
-        product_number: 'SP-2023-003',
-        product_description: 'High-performance iridium spark plugs',
-        jinku_product_id: 'JK-003',
-        owner: 'ATCO Parts',
-        specifications: ['Iridium tip', 'Pre-gapped', 'Extended lifespan'],
-        product_image: '#',
-    },
-    {
-        product_name: 'Spark Plug Set',
-        product_number: 'SP-2023-003',
-        product_description: 'High-performance iridium spark plugs',
-        jinku_product_id: 'JK-003',
-        owner: 'ATCO Parts',
-        specifications: ['Iridium tip', 'Pre-gapped', 'Extended lifespan'],
-        product_image: '#',
-    },
-    {
-        product_name: 'Spark Plug Set',
-        product_number: 'SP-2023-003',
-        product_description: 'High-performance iridium spark plugs',
-        jinku_product_id: 'JK-003',
-        owner: 'ATCO Parts',
-        specifications: ['Iridium tip', 'Pre-gapped', 'Extended lifespan'],
-        product_image: '#',
-    },
-];
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
+import { fetchProducts } from '../api/products/products';
+import { Product, ProductSpecification } from '../api/products/types';
 
 export default function Catalog() {
-    const [globalFilter, setGlobalFilter] = useState('');
-    const [sorting, setSorting] = useState<SortingState>([]);
+    const searchParams = useSearchParams();
+    const [selectedProduct, setSelectedProduct] = useState<string>('');
+
+    const productName = searchParams.get('product_name');
+    const router = useRouter();
+
+    useEffect(() => {
+        if (productName) {
+            setSelectedProduct(productName);
+        }
+    }, [productName]);
 
     const columns: ColumnDef<Product>[] = useMemo(
         () => [
             {
-                accessorKey: 'product_image',
+                accessorKey: 'image',
                 header: 'Image',
-                cell: ({ row }) => (
-                    <div className='relative h-16 w-16'>
-                        {/* <Image
-                            src={row.getValue('product_image')}
-                            alt={row.getValue('product_name')}
-                            fill
-                            className='object-cover rounded-md'
-                        /> */}
-                    </div>
-                ),
+                cell: ({ row }) => {
+                    const images = row.getValue('image') as string[];
+                    return (
+                        <div className='relative h-16 w-16'>
+                            <Image src={images[0]} alt={row.getValue('name')} fill className='object-cover rounded-md' />
+                        </div>
+                    );
+                },
             },
             {
-                accessorKey: 'product_name',
+                accessorKey: 'name',
                 header: ({ column }) => {
                     return (
                         <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
@@ -124,26 +51,11 @@ export default function Catalog() {
                 },
             },
             {
-                accessorKey: 'product_number',
+                accessorKey: 'number',
                 header: ({ column }) => {
                     return (
                         <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
                             Product Number
-                            <ArrowUpDown className='ml-2 h-4 w-4' />
-                        </Button>
-                    );
-                },
-            },
-            {
-                accessorKey: 'product_description',
-                header: 'Description',
-            },
-            {
-                accessorKey: 'jinku_product_id',
-                header: ({ column }) => {
-                    return (
-                        <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-                            Jinku ID
                             <ArrowUpDown className='ml-2 h-4 w-4' />
                         </Button>
                     );
@@ -164,14 +76,11 @@ export default function Catalog() {
                 accessorKey: 'specifications',
                 header: 'Specifications',
                 cell: ({ row }) => {
-                    const specs: string[] = row.getValue('specifications');
+                    const specs = row.getValue('specifications') as ProductSpecification;
                     return (
                         <div className='flex flex-wrap gap-1'>
-                            {specs.map((spec, index) => (
-                                <span key={index} className='bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full'>
-                                    {spec}
-                                </span>
-                            ))}
+                            <span className='bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full'>{specs.location}</span>
+                            <span className='bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full'>{specs.position}</span>
                         </div>
                     );
                 },
@@ -180,19 +89,45 @@ export default function Catalog() {
         []
     );
 
+    const [pagination, setPagination] = useState({
+        pageIndex: 1,
+        pageSize: 15,
+    });
+
+    const { data: productNamesData, isLoading: productNameLoading } = useQuery({
+        queryKey: ['productNames'],
+        queryFn: async () => {
+            return ['ROD/ARM BUSH RUBBER'];
+        }, // Replace with actual API call to fetch product names
+    });
+
+    const { data, isLoading, error } = useQuery({
+        queryKey: ['products', productName, pagination],
+        queryFn: () => fetchProducts(productName || '', pagination),
+        enabled: !!productName,
+    });
+
+    const products = data?.results.products || [];
+    const productNames = productNamesData || [];
+    const totalPages = data?.results.total_pages || 0;
+
     const table = useReactTable({
         data: products,
-        columns,
+        manualPagination: true,
         state: {
-            sorting,
-            globalFilter,
+            pagination,
+            sorting: [],
         },
-        onSortingChange: setSorting,
-        onGlobalFilterChange: setGlobalFilter,
+        columns,
+        rowCount: totalPages * pagination.pageSize,
+        onPaginationChange: setPagination,
         getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
     });
+
+    const handleSelect = (value: string) => {
+        setSelectedProduct(value);
+        router.push(`?product_name=${encodeURIComponent(value)}`);
+    };
 
     return (
         <main className='min-h-screen bg-gray-500'>
@@ -200,14 +135,24 @@ export default function Catalog() {
                 <div className='bg-white rounded-lg shadow-md p-6 mb-8'>
                     <h1 className='text-3xl font-bold mb-8'>Auto Parts Catalog</h1>
                     <div className='relative mb-6'>
-                        <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400' />
-                        <Input
-                            type='text'
-                            placeholder='Search by product name, number, description...'
-                            value={globalFilter ?? ''}
-                            onChange={(e) => setGlobalFilter(e.target.value)}
-                            className='pl-10'
-                        />
+                        <Select value={selectedProduct} onValueChange={handleSelect}>
+                            <SelectTrigger>
+                                <SelectValue placeholder='Select product...' />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {productNameLoading ? (
+                                    <span className='flex items-center justify-center p-4'>
+                                        <Loader2 className='animate-spin' />
+                                    </span>
+                                ) : (
+                                    productNames.map((product) => (
+                                        <SelectItem key={product} value={product}>
+                                            {product}
+                                        </SelectItem>
+                                    ))
+                                )}
+                            </SelectContent>
+                        </Select>
                     </div>
 
                     <div className='overflow-x-auto'>
@@ -225,29 +170,95 @@ export default function Catalog() {
                                     </TableRow>
                                 ))}
                             </TableHeader>
-                            <TableBody>
-                                {table.getRowModel().rows.length ? (
-                                    table.getRowModel().rows.map((row) => (
-                                        <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-                                            {row.getVisibleCells().map((cell) => (
-                                                <TableCell key={cell.id}>
-                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                                </TableCell>
-                                            ))}
-                                        </TableRow>
-                                    ))
-                                ) : (
-                                    <TableRow>
-                                        <TableCell colSpan={columns.length} className='h-24 text-center'>
-                                            No results found.
-                                        </TableCell>
-                                    </TableRow>
-                                )}
-                            </TableBody>
+                            <MainTableBody isLoading={isLoading} error={error} table={table} columnsLength={columns.length} />
                         </Table>
+                    </div>
+                    <div className='flex items-center justify-end space-x-2 py-4'>
+                        {!isLoading ? (
+                            <>
+                                <div className='flex-1 text-sm text-muted-foreground'>
+                                    Page {pagination.pageIndex} of {totalPages}.
+                                </div>
+                                <div className='space-x-2'>
+                                    <Button
+                                        variant='outline'
+                                        size='sm'
+                                        onClick={() => table.previousPage()}
+                                        disabled={!table.getCanPreviousPage()}
+                                    >
+                                        Previous
+                                    </Button>
+                                    <Button variant='outline' size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+                                        Next
+                                    </Button>
+                                </div>
+                            </>
+                        ) : null}
                     </div>
                 </div>
             </div>
         </main>
+    );
+}
+
+function MainTableBody({
+    isLoading,
+    error,
+    table,
+    columnsLength,
+}: {
+    isLoading: boolean;
+    error: Error | null;
+    table: TableType<Product>;
+    columnsLength: number;
+}) {
+    if (isLoading) {
+        return (
+            <TableBody>
+                <TableRow>
+                    <TableCell colSpan={columnsLength} className='h-24 text-center'>
+                        <span className='flex flex-col items-center justify-center'>
+                            <Loader2 className='animate-spin' />
+                        </span>
+                    </TableCell>
+                </TableRow>
+            </TableBody>
+        );
+    }
+
+    if (error) {
+        return (
+            <TableBody>
+                <TableRow>
+                    <TableCell colSpan={columnsLength} className='h-24 text-center text-red-500'>
+                        Error loading products: {error.message}
+                    </TableCell>
+                </TableRow>
+            </TableBody>
+        );
+    }
+
+    if (table.getRowModel().rows.length === 0) {
+        return (
+            <TableBody>
+                <TableRow>
+                    <TableCell colSpan={columnsLength} className='h-24 text-center'>
+                        No products found.
+                    </TableCell>
+                </TableRow>
+            </TableBody>
+        );
+    }
+
+    return (
+        <TableBody>
+            {table.getRowModel().rows.map((row) => (
+                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                    {row.getVisibleCells().map((cell: Cell<Product, unknown>) => (
+                        <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                    ))}
+                </TableRow>
+            ))}
+        </TableBody>
     );
 }

@@ -67,9 +67,12 @@ async def generate_user_id():
 
 @catalog_route.post("/search", response_model=SearchOutputModel)
 @limiter.limit("10/minute")
-@log.track
+# @log.track
 async def search_data(
-    request: Request, request_data: SearchInputModel, page: int = 1, page_size: int = 10
+    request: Request,
+    request_data: SearchInputModel,
+    page: int = 1,
+    page_size: int = 10,
 ):
     try:
         logger.info("Searching data...")
