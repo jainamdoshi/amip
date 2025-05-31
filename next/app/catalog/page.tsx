@@ -1,29 +1,26 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useQuery } from '@tanstack/react-query';
 import { Cell, ColumnDef, flexRender, getCoreRowModel, Table as TableType, useReactTable } from '@tanstack/react-table';
-import { ArrowUpDown, Loader2 } from 'lucide-react';
+import { ArrowUpDown, Loader2, X } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useDebounce } from 'use-debounce';
 import { fetchProducts } from '../api/products/products';
 import { Product, ProductSpecification } from '../api/products/types';
 
 export default function Catalog() {
     const searchParams = useSearchParams();
-    const [selectedProduct, setSelectedProduct] = useState<string>('');
+    const [selectedProduct, setSelectedProduct] = useState<string>(searchParams.get('product_name') || '');
+    const [productNumber, setProductNumber] = useState<string>(searchParams.get('product_number') || '');
+    const [debouncedProductNumber] = useDebounce(productNumber, 300);
 
-    const productName = searchParams.get('product_name');
     const router = useRouter();
-
-    useEffect(() => {
-        if (productName) {
-            setSelectedProduct(productName);
-        }
-    }, [productName]);
 
     const columns: ColumnDef<Product>[] = useMemo(
         () => [
@@ -102,9 +99,9 @@ export default function Catalog() {
     });
 
     const { data, isLoading, error } = useQuery({
-        queryKey: ['products', productName, pagination],
-        queryFn: () => fetchProducts(productName || '', pagination),
-        enabled: !!productName,
+        queryKey: ['products', productNumber, debouncedProductNumber, pagination],
+        queryFn: () => fetchProducts(productNumber || '', debouncedProductNumber, pagination),
+        enabled: !!productNumber,
     });
 
     const products = data?.results.products || [];
@@ -129,30 +126,58 @@ export default function Catalog() {
         router.push(`?product_name=${encodeURIComponent(value)}`);
     };
 
+    const onSearchChange = (value: string) => {
+        setProductNumber(value);
+        router.push(`?product_number=${encodeURIComponent(value)}`);
+    };
+
     return (
         <main className='min-h-screen bg-gray-500'>
             <div className='mx-auto px-4 py-24'>
                 <div className='bg-white rounded-lg shadow-md p-6 mb-8'>
                     <h1 className='text-3xl font-bold mb-8'>Auto Parts Catalog</h1>
-                    <div className='relative mb-6'>
-                        <Select value={selectedProduct} onValueChange={handleSelect}>
-                            <SelectTrigger>
-                                <SelectValue placeholder='Select product...' />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {productNameLoading ? (
-                                    <span className='flex items-center justify-center p-4'>
-                                        <Loader2 className='animate-spin' />
-                                    </span>
-                                ) : (
-                                    productNames.map((product) => (
-                                        <SelectItem key={product} value={product}>
-                                            {product}
-                                        </SelectItem>
-                                    ))
-                                )}
-                            </SelectContent>
-                        </Select>
+                    <div className='relative mb-6 flex w-full gap-3'>
+                        <div className='relative w-3/5'>
+                            <Input
+                                type='text'
+                                placeholder='Search Product Name'
+                                value={productNumber}
+                                onChange={(e) => onSearchChange(e.target.value)}
+                                className='flex-1'
+                            />
+                            {productNumber && (
+                                <Button
+                                    type='button'
+                                    variant='ghost'
+                                    size='icon'
+                                    className='absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100'
+                                    onClick={() => onSearchChange('')}
+                                >
+                                    <X className='h-4 w-4' />
+                                    <span className='sr-only'>Clear</span>
+                                </Button>
+                            )}
+                        </div>
+                        <div className='w-2/5'>
+                            <Select value={selectedProduct} onValueChange={handleSelect}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder='Select product...' />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {productNameLoading ? (
+                                        <span className='flex items-center justify-center p-4'>
+                                            <Loader2 className='animate-spin' />
+                                        </span>
+                                    ) : (
+                                        productNames.map((product) => (
+                                            <SelectItem key={product} value={product}>
+                                                {product}
+                                            </SelectItem>
+                                        ))
+                                    )}
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </div>
 
                     <div className='overflow-x-auto'>
@@ -174,7 +199,7 @@ export default function Catalog() {
                         </Table>
                     </div>
                     <div className='flex items-center justify-end space-x-2 py-4'>
-                        {!isLoading ? (
+                        {!isLoading && totalPages != 0 ? (
                             <>
                                 <div className='flex-1 text-sm text-muted-foreground'>
                                     Page {pagination.pageIndex} of {totalPages}.

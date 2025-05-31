@@ -5,7 +5,7 @@ export type Pagination = {
     pageSize: number;
 };
 
-export async function fetchProducts(productName: string, pagination: Pagination) {
+export async function fetchProducts(productName: string, product_number: string, pagination: Pagination) {
     const endpoint = process.env.NEXT_PUBLIC_BACKEND_URL || '';
     const res = await fetch(`${endpoint}/catalog/search?page=${pagination.pageIndex}&page_size=${pagination.pageSize}`, {
         method: 'POST',
@@ -16,6 +16,7 @@ export async function fetchProducts(productName: string, pagination: Pagination)
             user_id: '123',
             catalog_name: 'JINKU_CATALOG',
             product_name: productName,
+            product_number: product_number,
         }),
     });
     const data = (await res.json()) as ApiResponse;
