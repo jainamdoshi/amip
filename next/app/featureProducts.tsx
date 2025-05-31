@@ -23,6 +23,17 @@ const products = [
         tag: 'Best Seller',
         stock: 42,
     },
+    {
+        id: 2,
+        name: 'V-BELT',
+        category: 'suspension',
+        price: 89.99,
+        rating: 4.8,
+        image: 'https://www.jikiu.com/images/069d3bb002acd8d7dd095917f9efe4cb/thumb_images/6a11f8d6a8b58b13682e4664c1392f82.jpg',
+        discount: 15,
+        tag: 'Best Seller',
+        stock: 42,
+    },
     // {
     //     product_name: 'ROD/ARM BUSH RUBBER',
     //     product_image: ['https://www.jikiu.com/images/069d3bb002acd8d7dd095917f9efe4cb/thumb_images/6c9c8956817e303e7b7692b7d34dce02.jpg'],
@@ -248,7 +259,7 @@ export default function FeaturedProducts() {
                     ))}
                 </div>
 
-                <div className='mt-12 text-center'>
+                {/* <div className='mt-12 text-center'>
                     <Button
                         size='lg'
                         className='bg-red-500 hover:bg-red-600'
@@ -258,7 +269,7 @@ export default function FeaturedProducts() {
                     >
                         View All Products
                     </Button>
-                </div>
+                </div> */}
             </div>
         </section>
     );

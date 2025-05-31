@@ -97,7 +97,7 @@ export default function Catalog() {
     const { data: productNamesData, isLoading: productNameLoading } = useQuery({
         queryKey: ['productNames'],
         queryFn: async () => {
-            return ['ROD/ARM BUSH RUBBER'];
+            return ['ROD/ARM BUSH RUBBER', 'V-BELT'];
         }, // Replace with actual API call to fetch product names
     });
 
