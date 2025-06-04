@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useQuery } from '@tanstack/react-query';
 
 const products = [
     {
@@ -18,7 +19,7 @@ const products = [
         category: 'suspension',
         price: 89.99,
         rating: 4.8,
-        image: 'https://www.jikiu.com/images/069d3bb002acd8d7dd095917f9efe4cb/thumb_images/6c9c8956817e303e7b7692b7d34dce02.jpg',
+        image: '/static/products/rod-arm-bush-rubber.jpg',
         discount: 15,
         tag: 'Best Seller',
         stock: 42,
@@ -29,7 +30,7 @@ const products = [
         category: 'suspension',
         price: 89.99,
         rating: 4.8,
-        image: 'https://www.jikiu.com/images/069d3bb002acd8d7dd095917f9efe4cb/thumb_images/6a11f8d6a8b58b13682e4664c1392f82.jpg',
+        image: '/static/products/v-belt.jpg',
         discount: 15,
         tag: 'Best Seller',
         stock: 42,
@@ -119,17 +120,16 @@ const products = [
 
 export default function FeaturedProducts() {
     const [activeTab, setActiveTab] = useState('all');
-    const router = useRouter();
+    // const {
+    //     data: allProductTypes,
+    //     isLoading,
+    //     isError,
+    // } = useQuery({
+    //     queryKey: ['allProductTypes'],
+    //     queryFn: fetchProductTypes,
+    // });
 
     const filteredProducts = activeTab === 'all' ? products : products.filter((product) => product.category === activeTab);
-
-    const renderStars = (rating: number) => {
-        return Array(5)
-            .fill(0)
-            .map((_, i) => (
-                <Star key={i} className={`h-4 w-4 ${i < Math.floor(rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
-            ));
-    };
 
     return (
         <section className='py-16'>

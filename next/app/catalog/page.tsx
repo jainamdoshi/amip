@@ -25,18 +25,6 @@ export default function Catalog() {
     const columns: ColumnDef<Product>[] = useMemo(
         () => [
             {
-                accessorKey: 'image',
-                header: 'Image',
-                cell: ({ row }) => {
-                    const images = row.getValue('image') as string[];
-                    return (
-                        <div className='relative h-16 w-16'>
-                            <Image src={images[0]} alt={row.getValue('name')} fill className='object-cover rounded-md' />
-                        </div>
-                    );
-                },
-            },
-            {
                 accessorKey: 'name',
                 header: ({ column }) => {
                     return (

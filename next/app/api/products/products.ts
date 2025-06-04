@@ -4,9 +4,9 @@ export type Pagination = {
     pageIndex: number;
     pageSize: number;
 };
+const endpoint = process.env.NEXT_PUBLIC_BACKEND_URL || '';
 
 export async function fetchProducts(productName: string, product_number: string, pagination: Pagination) {
-    const endpoint = process.env.NEXT_PUBLIC_BACKEND_URL || '';
     const res = await fetch(`${endpoint}/catalog/search?page=${pagination.pageIndex}&page_size=${pagination.pageSize}`, {
         method: 'POST',
         headers: {
@@ -41,4 +41,18 @@ function parseProducts(data: RawProduct[]): Product[] {
         number: product.Number,
         owner: product.Owner,
     }));
+}
+
+export async function fetchProductTypes() {
+    const res = await fetch(`${endpoint}/catalog/types`, {
+        method: 'POST',
+        body: JSON.stringify({
+            user_id: '123',
+            catalog_name: 'JINKU_CATALOG',
+        }),
+    });
+    if (!res.ok) {
+        throw new Error('Failed to fetch product types');
+    }
+    return res.json();
 }
