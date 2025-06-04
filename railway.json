@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "python apps/fastapiApp/src/",
+    "startCommand": "python amip-trading-backend/apps/fastapiApp/src/",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 1,
     "sleepApplication": false
