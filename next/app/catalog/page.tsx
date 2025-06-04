@@ -7,11 +7,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { useQuery } from '@tanstack/react-query';
 import { Cell, ColumnDef, flexRender, getCoreRowModel, Table as TableType, useReactTable } from '@tanstack/react-table';
 import { ArrowUpDown, Loader2, X } from 'lucide-react';
-import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { useDebounce } from 'use-debounce';
-import { fetchProducts } from '../api/products/products';
+import { fetchProducts, fetchProductTypes } from '../api/products/products';
 import { Product, ProductSpecification } from '../api/products/types';
 
 export default function Catalog() {
@@ -64,8 +63,12 @@ export default function Catalog() {
                     const specs = row.getValue('specifications') as ProductSpecification;
                     return (
                         <div className='flex flex-wrap gap-1'>
-                            <span className='bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full'>{specs.location}</span>
-                            <span className='bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full'>{specs.position}</span>
+                            {specs.location && (
+                                <span className='bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full'>{specs.location}</span>
+                            )}
+                            {specs.position && (
+                                <span className='bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full'>{specs.position}</span>
+                            )}
                         </div>
                     );
                 },
@@ -79,21 +82,21 @@ export default function Catalog() {
         pageSize: 15,
     });
 
-    const { data: productNamesData, isLoading: productNameLoading } = useQuery({
-        queryKey: ['productNames'],
-        queryFn: async () => {
-            return ['ROD/ARM BUSH RUBBER', 'V-BELT'];
-        }, // Replace with actual API call to fetch product names
+    const { data: allProductTypes, isLoading: productNameLoading } = useQuery({
+        queryKey: ['allProductTypes'],
+        queryFn: fetchProductTypes,
     });
 
+    // const queryKey = ;
+
     const { data, isLoading, error } = useQuery({
-        queryKey: ['products', productNumber, debouncedProductNumber, pagination],
-        queryFn: () => fetchProducts(productNumber || '', debouncedProductNumber, pagination),
-        enabled: !!productNumber,
+        queryKey: ['products', selectedProduct, debouncedProductNumber || '-', pagination],
+        queryFn: () => fetchProducts(selectedProduct || '', debouncedProductNumber, pagination),
+        enabled: !!debouncedProductNumber || !!selectedProduct,
     });
 
     const products = data?.results.products || [];
-    const productNames = productNamesData || [];
+    const productNames = allProductTypes || [];
     const totalPages = data?.results.total_pages || 0;
 
     const table = useReactTable({
@@ -111,12 +114,16 @@ export default function Catalog() {
 
     const handleSelect = (value: string) => {
         setSelectedProduct(value);
-        router.push(`?product_name=${encodeURIComponent(value)}`);
+        router.push(
+            `?product_name=${encodeURIComponent(value)}${productNumber ? `&product_number=${encodeURIComponent(productNumber)}` : ''}`
+        );
     };
 
     const onSearchChange = (value: string) => {
         setProductNumber(value);
-        router.push(`?product_number=${encodeURIComponent(value)}`);
+        router.push(
+            `?product_number=${encodeURIComponent(value)}${selectedProduct ? `&product_name=${encodeURIComponent(selectedProduct)}` : ''}`
+        );
     };
 
     return (
@@ -128,7 +135,7 @@ export default function Catalog() {
                         <div className='relative w-3/5'>
                             <Input
                                 type='text'
-                                placeholder='Search Product Name'
+                                placeholder='Search Product Number'
                                 value={productNumber}
                                 onChange={(e) => onSearchChange(e.target.value)}
                                 className='flex-1'

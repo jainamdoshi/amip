@@ -1,4 +1,4 @@
-import { ApiResponse, Product, RawProduct } from './types';
+import { ApiResponse, Product, RawAllProductNamesResult, RawProduct, RawProductResult } from './types';
 
 export type Pagination = {
     pageIndex: number;
@@ -19,7 +19,7 @@ export async function fetchProducts(productName: string, product_number: string,
             product_number: product_number,
         }),
     });
-    const data = (await res.json()) as ApiResponse;
+    const data = (await res.json()) as ApiResponse<RawProductResult>;
     return {
         ...data,
         results: {
@@ -44,15 +44,19 @@ function parseProducts(data: RawProduct[]): Product[] {
 }
 
 export async function fetchProductTypes() {
-    const res = await fetch(`${endpoint}/catalog/types`, {
+    const res = await fetch(`${endpoint}/catalog/products`, {
         method: 'POST',
         body: JSON.stringify({
             user_id: '123',
             catalog_name: 'JINKU_CATALOG',
         }),
+        headers: {
+            'Content-Type': 'application/json',
+        },
     });
     if (!res.ok) {
         throw new Error('Failed to fetch product types');
     }
-    return res.json();
+    const data = (await res.json()) as ApiResponse<RawAllProductNamesResult>;
+    return data.results.products;
 }

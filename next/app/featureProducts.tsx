@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
+import { fetchProductTypes } from './api/products/products';
 
 const products = [
     {
@@ -120,14 +121,18 @@ const products = [
 
 export default function FeaturedProducts() {
     const [activeTab, setActiveTab] = useState('all');
-    // const {
-    //     data: allProductTypes,
-    //     isLoading,
-    //     isError,
-    // } = useQuery({
-    //     queryKey: ['allProductTypes'],
-    //     queryFn: fetchProductTypes,
-    // });
+    const {
+        data: allProductTypes,
+        isLoading,
+        isError,
+    } = useQuery({
+        queryKey: ['allProductTypes'],
+        queryFn: fetchProductTypes,
+    });
+
+    if (isLoading || isError) {
+        return null; // or a loading spinner
+    }
 
     const filteredProducts = activeTab === 'all' ? products : products.filter((product) => product.category === activeTab);
 
@@ -170,9 +175,9 @@ export default function FeaturedProducts() {
                 </Tabs>
 
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
-                    {filteredProducts.map((product, index) => (
+                    {allProductTypes?.map((product, index) => (
                         <motion.div
-                            key={product.id}
+                            key={product}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: index * 0.05 }}
@@ -187,8 +192,8 @@ export default function FeaturedProducts() {
 
                                 <div className='relative h-56 overflow-hidden'>
                                     <Image
-                                        src={product.image}
-                                        alt={product.name}
+                                        src='/static/products/rod-arm-bush-rubber.jpg'
+                                        alt={product}
                                         fill
                                         className='object-cover transition-transform duration-500 group-hover:scale-110'
                                     />
@@ -201,7 +206,7 @@ export default function FeaturedProducts() {
                                             <Button size='icon' variant='secondary' className='rounded-full'>
                                                 <Heart className='h-4 w-4' />
                                             </Button> */}
-                                            <Link href={`/catalog?product_name=${encodeURIComponent(product.name)}`}>
+                                            <Link href={`/catalog?product_name=${encodeURIComponent(product)}`}>
                                                 <Button size='icon' variant='secondary' className='rounded-full'>
                                                     <Eye className='h-4 w-4' />
                                                 </Button>
@@ -212,13 +217,11 @@ export default function FeaturedProducts() {
 
                                 <CardContent className='pt-6'>
                                     <div className='flex justify-between mb-2'>
-                                        <span className='text-sm text-gray-500 uppercase'>{product.category}</span>
+                                        {/* <span className='text-sm text-gray-500 uppercase'>{'---'}</span> */}
                                         {/* <div className='flex items-center'>{renderStars(product.rating)}</div> */}
                                     </div>
 
-                                    <h3 className='font-semibold text-lg mb-2 group-hover:text-red-500 transition-colors'>
-                                        {product.name}
-                                    </h3>
+                                    <h3 className='font-semibold text-lg mb-2 group-hover:text-red-500 transition-colors'>{product}</h3>
 
                                     <div className='flex items-center justify-between'>
                                         {/* <div>

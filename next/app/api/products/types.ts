@@ -8,6 +8,14 @@ export type ProductSpecification = {
     position: string;
 };
 
+export type RawProductResult = {
+    total: number;
+    page: number;
+    page_size: number;
+    total_pages: number;
+    products: RawProduct[];
+};
+
 export type RawProduct = {
     _id: string;
     jinku_url: string;
@@ -19,6 +27,10 @@ export type RawProduct = {
     Number: string;
 };
 
+export type RawAllProductNamesResult = {
+    products: string[];
+};
+
 export type Product = {
     id: string;
     name: string;
@@ -28,13 +40,7 @@ export type Product = {
     owner: string;
 };
 
-export type ApiResponse = {
+export type ApiResponse<T> = {
     success: boolean;
-    results: {
-        total: number;
-        page: number;
-        page_size: number;
-        total_pages: number;
-        products: RawProduct[];
-    };
+    results: T;
 };
