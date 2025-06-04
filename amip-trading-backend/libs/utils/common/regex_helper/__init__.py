@@ -1,15 +1,14 @@
 import re
 
 
-def build_regex_query(search_text: str) -> dict:
-    # Tokenize the search string into words
-    tokens = search_text.strip().split()
+def build_regex_query(search_text: str, anchor_start: bool = True) -> dict:
+    # Only take the first word or the full phrase depending on your UX goal
+    escaped = re.escape(search_text.strip())
 
-    # Escape each token for regex safety
-    escaped_tokens = [re.escape(token) for token in tokens]
-
-    # Build regex pattern: (?=.*token1)(?=.*token2)...
-    regex_pattern = "".join([f"(?=.*{token})" for token in escaped_tokens])
+    if anchor_start:
+        regex_pattern = f"^{escaped}"  # Anchored regex for index usage
+    else:
+        regex_pattern = escaped  # Non-anchored fallback
 
     return {
         "$regex": regex_pattern,

@@ -1,12 +1,14 @@
 # from apps.fastapiApp.auth.src.service import verify_api_key
 from apps.fastapiApp.platform.modules.catalog.src.dto import (
     CrossSearchInputModel,
+    ProductInputModel,
     SearchInputModel,
     SearchOutputModel,
 )
 from apps.fastapiApp.platform.modules.catalog.src.service import (
     cross_search_and_paginate_data,
     generate_new_user_id,
+    get_products_and_paginate_data,
     search_and_paginate_data,
 )
 from fastapi import APIRouter, Request
@@ -64,10 +66,32 @@ async def generate_user_id():
             content={"success": False, "error": str(error)}, status_code=500
         )
 
+@catalog_route.post("/products", response_model=SearchOutputModel)
+@limiter.limit("10/minute")
+@log.track
+async def get_products(
+    request: Request,
+    request_data: ProductInputModel,
+    page: int = 1,
+    page_size: int = 10,
+):
+    try:
+        logger.info("Searching available products...")
+        results = await get_products_and_paginate_data(request_data, page, page_size)
+
+        return JSONResponse(
+            content={"success": True, "results": results},
+            status_code=200,
+        )
+    except Exception as error:
+        return JSONResponse(
+            content={"success": False, "error": str(error)}, status_code=500
+        )
+
 
 @catalog_route.post("/search", response_model=SearchOutputModel)
 @limiter.limit("10/minute")
-# @log.track
+@log.track
 async def search_data(
     request: Request,
     request_data: SearchInputModel,
@@ -78,7 +102,6 @@ async def search_data(
         logger.info("Searching data...")
         results = await search_and_paginate_data(request_data, page, page_size)
 
-        logger.debug(f"Search results: {results}")
         return JSONResponse(
             content={"success": True, "results": results},
             status_code=200,

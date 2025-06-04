@@ -118,3 +118,10 @@ class BaseRepository:
         """Aggregates documents asynchronously"""
         self.__check_db_connection()
         return self.collection.aggregate(pipeline)
+
+    async def count_documents(self, query: dict = None) -> int:
+        """Counts documents in the collection asynchronously"""
+        if query is None:
+            query = {}
+        self.__check_db_connection()
+        return await self.collection.count_documents(query)

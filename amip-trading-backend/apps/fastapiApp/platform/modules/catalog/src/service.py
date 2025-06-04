@@ -3,6 +3,7 @@ from uuid import uuid4
 
 from apps.fastapiApp.platform.modules.catalog.src.dto import (
     CrossSearchInputModel,
+    ProductInputModel,
     SearchInputModel,
 )
 from libs.utils.common.custom_logger import CustomLogger
@@ -29,15 +30,12 @@ async def generate_new_user_id():
 
     return user_id
 
-
-# @log.track
-async def search_and_paginate_data(
-    request_data: SearchInputModel, page: int, page_size: int
+@log.track
+async def get_products_and_paginate_data(
+    request_data: ProductInputModel, page: int, page_size: int
 ):
-    catalog_data = await db_operations.search_data_in_db(
-        catalog_name=request_data.catalog_name,
-        product_name=request_data.product_name,
-        product_number=request_data.product_number,
+    catalog_data = await db_operations.search_products_data_in_db(
+        catalog_name=request_data.catalog_name
     )
     if catalog_data is None:
         return {
@@ -63,13 +61,16 @@ async def search_and_paginate_data(
         "products": paginated_data,
     }
 
-
 @log.track
-async def cross_search_and_paginate_data(
-    request_data: CrossSearchInputModel, page: int, page_size: int
+async def search_and_paginate_data(
+    request_data: SearchInputModel, page: int, page_size: int
 ):
-    catalog_data = await db_operations.cross_search_data_in_db(
-        catalog_name=request_data.catalog_name, product_mid=request_data.product_mid
+    catalog_data,total = await db_operations.search_data_in_db(
+        catalog_name=request_data.catalog_name,
+        product_name=request_data.product_name,
+        product_number=request_data.product_number,
+        page=page,
+        page_size=page_size
     )
     if catalog_data is None:
         return {
@@ -79,14 +80,44 @@ async def cross_search_and_paginate_data(
             "total_pages": 0,
             "products": [],
         }
-    total = len(catalog_data)
+
     total_pages, start, end = get_page_params(total, page, page_size)
-    paginated_data = catalog_data[start:end]
+    # Slice the catalog data to get paginated result
+
+    # Prepare response
+    return {
+        "total": total,
+        "page": page,
+        "page_size": page_size,
+        "total_pages": total_pages,
+        "products": catalog_data,
+    }
+
+
+@log.track
+async def cross_search_and_paginate_data(
+    request_data: CrossSearchInputModel, page: int, page_size: int
+):
+    catalog_data,total = await db_operations.cross_search_data_in_db(
+        catalog_name=request_data.catalog_name,
+        product_mid=request_data.product_mid,
+        page=page,
+        page_size=page_size
+    )
+    if catalog_data is None:
+        return {
+            "total": 0,
+            "page": page,
+            "page_size": page_size,
+            "total_pages": 0,
+            "products": [],
+        }
+    total_pages, start, end = get_page_params(total, page, page_size)
 
     return {
         "total": total,
         "page": page,
         "page_size": page_size,
         "total_pages": total_pages,
-        "products": paginated_data,
+        "products": catalog_data,
     }

@@ -76,13 +76,28 @@ def start_server(
             ),
             extra={"logType": LogType.STARTUP.value},
         )
-        os.environ["PYTHONPATH"] = str(Path(__file__).resolve().parent.parent.parent.parent)
-        os.system(
-            f"PYTHONPATH={os.environ['PYTHONPATH']} gunicorn "
+        PYTHONPATH = str(Path(__file__).resolve().parent.parent.parent.parent)
+        os.environ["PYTHONPATH"] = PYTHONPATH
+
+        command = (
+            f"gunicorn "
             f"-w {workers} "
             f"--threads {threads} "
             f"-k uvicorn.workers.UvicornWorker "
             f"-b {host}:{port} apps.fastapiApp.src:amip_trading_backend_app"
         )
+
+        # Windows requires env vars to be set separately
+        if os.name == "nt":
+            # On Windows, gunicorn is not natively supported, recommend using 'uvicorn' directly
+            logger.warning(
+                color_string("Gunicorn is not supported on Windows. Use 'uvicorn' instead.", Colors.BOLD_RED)
+            )
+            command = (
+                f"uvicorn apps.fastapiApp.src:amip_trading_backend_app "
+                f"--host {host} --port {port} --workers {workers}"
+            )
+
+        os.system(command)
     else:
         raise ValueError(f"Invalid environment: {environment}, check env file!")

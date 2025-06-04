@@ -9,6 +9,9 @@ listener.start()
 
 # class GenerateUserIDInputModel(BaseModel):
 
+class ProductInputModel(BaseModel):
+    user_id:str
+    catalog_name: AvailableCatalogs | None = AvailableCatalogs.JINKU_CATALOG
 
 class SearchInputModel(BaseModel):
     user_id: str
