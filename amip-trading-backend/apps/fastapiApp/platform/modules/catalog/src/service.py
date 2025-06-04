@@ -47,18 +47,11 @@ async def get_products_and_paginate_data(
         }
 
     total = len(catalog_data)
-    total_pages, start, end = get_page_params(total, page, page_size)
-
-    # Slice the catalog data to get paginated result
-    paginated_data = catalog_data[start:end]
 
     # Prepare response
     return {
         "total": total,
-        "page": page,
-        "page_size": page_size,
-        "total_pages": total_pages,
-        "products": paginated_data,
+        "products": catalog_data,
     }
 
 @log.track

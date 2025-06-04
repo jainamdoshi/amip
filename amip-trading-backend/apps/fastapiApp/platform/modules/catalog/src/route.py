@@ -69,7 +69,7 @@ async def generate_user_id():
 @catalog_route.post("/products", response_model=SearchOutputModel)
 @limiter.limit("10/minute")
 @log.track
-async def get_products(
+async def get_unique_products_list(
     request: Request,
     request_data: ProductInputModel,
     page: int = 1,
