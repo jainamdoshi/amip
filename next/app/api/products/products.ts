@@ -1,4 +1,4 @@
-import { ApiResponse, Product, RawAllProductNamesResult, RawProduct, RawProductResult } from './types';
+import { ApiResponse, Product, RawAllProductNamesResult, RawCrossSearchResult, RawProduct, RawProductResult } from './types';
 
 export type Pagination = {
     pageIndex: number;
@@ -80,4 +80,23 @@ export async function fetchProductTypes() {
     }
     const data = (await res.json()) as ApiResponse<RawAllProductNamesResult>;
     return data.results.products;
+}
+
+export async function fetchProductDetails(productId: string) {
+    const res = await fetch(`${endpoint}/catalog/cross-search`, {
+        method: 'POST',
+        body: JSON.stringify({
+            user_id: '123',
+            catalog_name: 'JINKU_CATALOG',
+            product_mid: productId,
+        }),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    if (!res.ok) {
+        throw new Error('Failed to fetch product details');
+    }
+    const data = (await res.json()) as RawCrossSearchResult;
+    return data.user_id.products;
 }

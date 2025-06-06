@@ -46,12 +46,11 @@ export default function Catalog() {
                     const specs = row.getValue('specifications') as ProductSpecification;
                     return (
                         <div className='flex flex-wrap gap-1'>
-                            {specs.location && (
-                                <span className='bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full'>{specs.location}</span>
-                            )}
-                            {specs.position && (
-                                <span className='bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full'>{specs.position}</span>
-                            )}
+                            {Object.entries(specs).map(([key, value]) => (
+                                <div key={key} className='flex justify-between border-b border-gray-100 pb-2'>
+                                    <span className='bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full'>{value}</span>
+                                </div>
+                            ))}
                         </div>
                     );
                 },

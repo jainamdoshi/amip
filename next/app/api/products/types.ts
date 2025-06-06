@@ -4,8 +4,7 @@ type RawProductSpecification = {
 };
 
 export type ProductSpecification = {
-    location: string;
-    position: string;
+    [key: string]: string;
 };
 
 export type RawProductResult = {
@@ -25,6 +24,10 @@ export type RawProduct = {
     specifications: RawProductSpecification;
     Owner: string;
     Number: string;
+};
+
+export type RawCrossSearchResult = {
+    user_id: RawProductResult;
 };
 
 export type RawAllProductNamesResult = {

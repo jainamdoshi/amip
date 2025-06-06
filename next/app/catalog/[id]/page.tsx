@@ -1,8 +1,10 @@
 'use client';
 
+import { fetchProductDetails } from '@/app/api/products/products';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { useQuery } from '@tanstack/react-query';
 import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
@@ -14,82 +16,31 @@ interface CrossSearchResult {
     number: string;
 }
 
-const productData = [
-    {
-        product_name: 'ROD/ARM BUSH RUBBER',
-        product_image: ['https://www.jikiu.com/images/069d3bb002acd8d7dd095917f9efe4cb/thumb_images/6c9c8956817e303e7b7692b7d34dce02.jpg'],
-        jinku_product_id: 'AR24000',
-        specifications: {
-            Location: 'Front Axle Arm/Rod',
-            Position: 'Lateral Control Rod',
-        },
-        Owner: 'FeBest',
-        Number: 'ISSB-001',
-    },
-    {
-        product_name: 'ROD/ARM BUSH RUBBER',
-        product_image: ['https://www.jikiu.com/images/069d3bb002acd8d7dd095917f9efe4cb/thumb_images/6c9c8956817e303e7b7692b7d34dce02.jpg'],
-        jinku_product_id: 'AR24000',
-        specifications: {
-            Location: 'Front Axle Arm/Rod',
-            Position: 'Lateral Control Rod',
-        },
-        Owner: 'ISUZU',
-        Number: '8-97075-603-0',
-    },
-    {
-        product_name: 'ROD/ARM BUSH RUBBER',
-        product_image: ['https://www.jikiu.com/images/069d3bb002acd8d7dd095917f9efe4cb/thumb_images/6c9c8956817e303e7b7692b7d34dce02.jpg'],
-        jinku_product_id: 'AR24000',
-        specifications: {
-            Location: 'Front Axle Arm/Rod',
-            Position: 'Lateral Control Rod',
-        },
-        Owner: 'FeBest',
-        Number: 'ISSB-001',
-    },
-    {
-        product_name: 'ROD/ARM BUSH RUBBER',
-        product_image: ['https://www.jikiu.com/images/069d3bb002acd8d7dd095917f9efe4cb/thumb_images/6c9c8956817e303e7b7692b7d34dce02.jpg'],
-        jinku_product_id: 'AR24000',
-        specifications: {
-            Location: 'Front Axle Arm/Rod',
-            Position: 'Lateral Control Rod',
-        },
-        Owner: 'ISUZU',
-        Number: '8-97075-603-0',
-    },
-    {
-        product_name: 'ROD/ARM BUSH RUBBER',
-        product_image: ['https://www.jikiu.com/images/069d3bb002acd8d7dd095917f9efe4cb/thumb_images/6c9c8956817e303e7b7692b7d34dce02.jpg'],
-        jinku_product_id: 'AR24000',
-        specifications: {
-            Location: 'Front Axle Arm/Rod',
-            Position: 'Lateral Control Rod',
-        },
-        Owner: 'FeBest',
-        Number: 'ISSB-001',
-    },
-    {
-        product_name: 'ROD/ARM BUSH RUBBER',
-        product_image: ['https://www.jikiu.com/images/069d3bb002acd8d7dd095917f9efe4cb/thumb_images/6c9c8956817e303e7b7692b7d34dce02.jpg'],
-        jinku_product_id: 'AR24000',
-        specifications: {
-            Location: 'Front Axle Arm/Rod',
-            Position: 'Lateral Control Rod',
-        },
-        Owner: 'ISUZU',
-        Number: '8-97075-603-0',
-    },
-];
-
 export default function ProductPage({
     params,
 }: Readonly<{
     params: { id: string };
 }>) {
     const router = useRouter();
+
+    const {
+        data: productData,
+        isLoading,
+        isError,
+    } = useQuery({
+        queryKey: ['productData', params.id],
+        queryFn: async () => fetchProductDetails(params.id),
+    });
+
     const parsedData = useMemo(() => {
+        if (!productData || productData.length === 0) {
+            return {
+                product_name: '',
+                specifications: {},
+                crossSearchResults: [],
+            };
+        }
+
         return {
             product_name: productData[0].product_name,
             specifications: productData[0].specifications,
@@ -99,7 +50,6 @@ export default function ProductPage({
             })),
         };
     }, [productData]);
-
     const columns: ColumnDef<CrossSearchResult>[] = useMemo(
         () => [
             {
@@ -163,6 +113,14 @@ export default function ProductPage({
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
     });
+
+    if (isLoading || isError) {
+        return (
+            <div className='flex items-center justify-center min-h-screen'>
+                <p className='text-gray-500'>{isError ? isError : 'Loading...'}</p>
+            </div>
+        );
+    }
 
     return (
         <main className='min-h-screen bg-gray-50'>
