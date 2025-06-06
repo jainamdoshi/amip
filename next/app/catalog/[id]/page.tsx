@@ -6,8 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
-import { ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
+import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 
@@ -114,10 +113,18 @@ export default function ProductPage({
         getFilteredRowModel: getFilteredRowModel(),
     });
 
-    if (isLoading || isError) {
+    if (isLoading) {
         return (
             <div className='flex items-center justify-center min-h-screen'>
-                <p className='text-gray-500'>{isError ? isError : 'Loading...'}</p>
+                <Loader2 className='animate-spin' />
+            </div>
+        );
+    }
+
+    if (isError) {
+        return (
+            <div className='flex items-center justify-center min-h-screen'>
+                <div className='text-red-500'>Error loading product details. Please try again later.</div>
             </div>
         );
     }
@@ -181,7 +188,7 @@ export default function ProductPage({
                                     <div className='space-y-3'>
                                         {Object.entries(parsedData.specifications).map(([key, value]) => (
                                             <div key={key} className='flex justify-between border-b border-gray-100 pb-2'>
-                                                <span className='font-medium text-gray-600'>{key}:</span>
+                                                <span className='font-medium text-gray-600'>{key}</span>
                                                 <span className='text-gray-900'>{value}</span>
                                             </div>
                                         ))}
