@@ -6,11 +6,13 @@ import { cn } from '@/lib/utils';
 import { Menu, Phone, Search, ShoppingCart, User, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const pathname = usePathname();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -31,7 +33,10 @@ export default function Header() {
         >
             <div className='container mx-auto px-4 flex items-center justify-between'>
                 <div className='flex items-center gap-10'>
-                    <Logo logoColor={isScrolled ? 'black' : 'white'} textColor={isScrolled ? 'text-primary' : 'text-white'} />
+                    <Logo
+                        logoColor={isScrolled || pathname !== '/' ? 'black' : 'white'}
+                        textColor={isScrolled ? 'text-primary' : 'text-white'}
+                    />
                 </div>
 
                 <div className='hidden md:flex items-center gap-4'>

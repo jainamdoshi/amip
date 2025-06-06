@@ -4,21 +4,42 @@ export type Pagination = {
     pageIndex: number;
     pageSize: number;
 };
+
+export type ProductSearchRequest = {
+    user_id: string;
+    catalog_name: string;
+    product_name?: string;
+    product_number?: string;
+};
+
 const endpoint = process.env.NEXT_PUBLIC_BACKEND_URL || '';
 
-export async function fetchProducts(productName: string, product_number: string, pagination: Pagination) {
-    const res = await fetch(`${endpoint}/catalog/search?page=${pagination.pageIndex}&page_size=${pagination.pageSize}`, {
+export async function fetchProducts(productName: string, productNumber: string, pagination: Pagination) {
+    const body: ProductSearchRequest = {
+        user_id: '123',
+        catalog_name: 'JINKU_CATALOG',
+    };
+
+    if (productName) {
+        body['product_name'] = productName;
+    }
+
+    if (productNumber) {
+        body['product_number'] = productNumber;
+    }
+
+    const res = await fetch(`${endpoint}/catalog/search?page=${pagination.pageIndex + 1}&page_size=${pagination.pageSize}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-            user_id: '123',
-            catalog_name: 'JINKU_CATALOG',
-            product_name: productName,
-            product_number: product_number,
-        }),
+        body: JSON.stringify(body),
     });
+
+    if (res.status === 429) {
+        throw new Error('Too many requests, please try again later.');
+    }
+
     const data = (await res.json()) as ApiResponse<RawProductResult>;
     return {
         ...data,

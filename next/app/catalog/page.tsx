@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useQuery } from '@tanstack/react-query';
 import { Cell, ColumnDef, flexRender, getCoreRowModel, Table as TableType, useReactTable } from '@tanstack/react-table';
-import { ArrowUpDown, Loader2, X } from 'lucide-react';
+import { Loader2, X } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { useDebounce } from 'use-debounce';
@@ -25,36 +25,19 @@ export default function Catalog() {
         () => [
             {
                 accessorKey: 'name',
-                header: ({ column }) => {
-                    return (
-                        <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-                            Product Name
-                            <ArrowUpDown className='ml-2 h-4 w-4' />
-                        </Button>
-                    );
-                },
+                header: 'Product Name',
             },
             {
                 accessorKey: 'number',
-                header: ({ column }) => {
-                    return (
-                        <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-                            Product Number
-                            <ArrowUpDown className='ml-2 h-4 w-4' />
-                        </Button>
-                    );
-                },
+                header: 'Product Number',
+            },
+            {
+                accessorKey: 'product_description',
+                header: 'Product Description',
             },
             {
                 accessorKey: 'owner',
-                header: ({ column }) => {
-                    return (
-                        <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-                            Owner
-                            <ArrowUpDown className='ml-2 h-4 w-4' />
-                        </Button>
-                    );
-                },
+                header: 'Owner',
             },
             {
                 accessorKey: 'specifications',
@@ -78,8 +61,8 @@ export default function Catalog() {
     );
 
     const [pagination, setPagination] = useState({
-        pageIndex: 1,
-        pageSize: 15,
+        pageIndex: 0,
+        pageSize: 20,
     });
 
     const { data: allProductTypes, isLoading: productNameLoading } = useQuery({
@@ -197,7 +180,7 @@ export default function Catalog() {
                         {!isLoading && totalPages != 0 ? (
                             <>
                                 <div className='flex-1 text-sm text-muted-foreground'>
-                                    Page {pagination.pageIndex} of {totalPages}.
+                                    Page {pagination.pageIndex + 1} of {totalPages}.
                                 </div>
                                 <div className='space-x-2'>
                                     <Button
@@ -232,6 +215,8 @@ function MainTableBody({
     table: TableType<Product>;
     columnsLength: number;
 }) {
+    const router = useRouter();
+
     if (isLoading) {
         return (
             <TableBody>
@@ -270,10 +255,14 @@ function MainTableBody({
         );
     }
 
+    const handleRowSelected = (productId: string) => {
+        router.push(`/catalog/${productId}`);
+    };
+
     return (
         <TableBody>
             {table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                <TableRow key={row.id} onClick={() => handleRowSelected(row.original.id)}>
                     {row.getVisibleCells().map((cell: Cell<Product, unknown>) => (
                         <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                     ))}
