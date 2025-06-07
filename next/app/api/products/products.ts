@@ -98,5 +98,5 @@ export async function fetchProductDetails(productId: string) {
         throw new Error('Failed to fetch product details');
     }
     const data = (await res.json()) as RawCrossSearchResult;
-    return data.user_id.products;
+    return data.user_id;
 }

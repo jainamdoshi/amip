@@ -1,19 +1,15 @@
 'use client';
 
 import { fetchProductDetails } from '@/app/api/products/products';
+import { CrossSearch } from '@/app/api/products/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
-import { ArrowLeft, Loader2 } from 'lucide-react';
+import { ArrowLeft, ArrowUpDown, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
-
-interface CrossSearchResult {
-    owner: string;
-    number: string;
-}
 
 export default function ProductPage({
     params,
@@ -30,29 +26,10 @@ export default function ProductPage({
         queryKey: ['productData', params.id],
         queryFn: async () => fetchProductDetails(params.id),
     });
-
-    const parsedData = useMemo(() => {
-        if (!productData || productData.length === 0) {
-            return {
-                product_name: '',
-                specifications: {},
-                crossSearchResults: [],
-            };
-        }
-
-        return {
-            product_name: productData[0].product_name,
-            specifications: productData[0].specifications,
-            crossSearchResults: productData.map((product) => ({
-                owner: product.Owner,
-                number: product.Number,
-            })),
-        };
-    }, [productData]);
-    const columns: ColumnDef<CrossSearchResult>[] = useMemo(
+    const columns: ColumnDef<CrossSearch>[] = useMemo(
         () => [
             {
-                accessorKey: 'owner',
+                accessorKey: 'Owner',
                 header: ({ column }) => {
                     return (
                         <Button
@@ -61,13 +38,14 @@ export default function ProductPage({
                             className='h-auto p-0 font-semibold'
                         >
                             Manufacturer/Owner
+                            <ArrowUpDown className='ml-1 h-4 w-4' />
                         </Button>
                     );
                 },
-                cell: ({ row }) => <div className='font-medium'>{row.getValue('owner')}</div>,
+                cell: ({ row }) => <div className='font-medium'>{row.getValue('Owner')}</div>,
             },
             {
-                accessorKey: 'number',
+                accessorKey: 'Number',
                 header: ({ column }) => {
                     return (
                         <Button
@@ -76,11 +54,12 @@ export default function ProductPage({
                             className='h-auto p-0 font-semibold'
                         >
                             Part Number
+                            <ArrowUpDown className='ml-1 h-4 w-4' />
                         </Button>
                     );
                 },
                 cell: ({ row }) => (
-                    <div className='font-mono text-sm bg-gray-100 px-2 py-1 rounded inline-block'>{row.getValue('number')}</div>
+                    <div className='font-mono text-sm bg-gray-100 px-2 py-1 rounded inline-block'>{row.getValue('Number')}</div>
                 ),
             },
             // {
@@ -100,7 +79,7 @@ export default function ProductPage({
     );
 
     const table = useReactTable({
-        data: parsedData.crossSearchResults,
+        data: productData?.crosses || [],
         columns,
         state: {
             // sorting,
@@ -128,6 +107,8 @@ export default function ProductPage({
             </div>
         );
     }
+
+    const specifications = productData?.product.specifications || {};
 
     return (
         <main className='min-h-screen bg-gray-50'>
@@ -171,7 +152,7 @@ export default function ProductPage({
                         {/* Product Info */}
                         <div className='space-y-6'>
                             <div>
-                                <h1 className='text-3xl font-bold text-gray-900 mb-2'>{parsedData.product_name}</h1>
+                                <h1 className='text-3xl font-bold text-gray-900 mb-2'>{productData?.product.product_name}</h1>
                                 <div className='flex items-center gap-4 mb-4'>
                                     {/* <Badge variant='outline' className='text-sm'>
                                         Jinku ID: {productData.jinku_product_id}
@@ -186,7 +167,7 @@ export default function ProductPage({
                                 </CardHeader>
                                 <CardContent>
                                     <div className='space-y-3'>
-                                        {Object.entries(parsedData.specifications).map(([key, value]) => (
+                                        {Object.entries(specifications).map(([key, value]) => (
                                             <div key={key} className='flex justify-between border-b border-gray-100 pb-2'>
                                                 <span className='font-medium text-gray-600'>{key}</span>
                                                 <span className='text-gray-900'>{value}</span>

@@ -1,8 +1,3 @@
-type RawProductSpecification = {
-    Location: string;
-    Position: string;
-};
-
 export type ProductSpecification = {
     [key: string]: string;
 };
@@ -21,13 +16,29 @@ export type RawProduct = {
     product_name: string;
     product_image: string[];
     jinku_product_id: string;
-    specifications: RawProductSpecification;
+    specifications: ProductSpecification;
     Owner: string;
     Number: string;
 };
 
 export type RawCrossSearchResult = {
-    user_id: RawProductResult;
+    user_id: {
+        product: {
+            product_name: string;
+            specifications: ProductSpecification;
+        };
+        crosses: [
+            {
+                Owner: string;
+                Number: string;
+            }
+        ];
+    };
+};
+
+export type CrossSearch = {
+    Owner: string;
+    Number: string;
 };
 
 export type RawAllProductNamesResult = {
