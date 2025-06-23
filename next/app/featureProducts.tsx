@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 import { fetchProductTypes } from './api/products/products';
 import { ApiResponse, RawAllProductNamesResult } from './api/products/types';
+import v from 'voca';
 
 const products: ApiResponse<RawAllProductNamesResult> = {
     success: true,
@@ -134,19 +135,19 @@ const products: ApiResponse<RawAllProductNamesResult> = {
 // ];
 
 export default function FeaturedProducts() {
-    const [activeTab, setActiveTab] = useState('all');
-    const {
-        data: allProductTypes,
-        isLoading,
-        isError,
-    } = useQuery({
-        queryKey: ['allProductTypes'],
-        queryFn: fetchProductTypes,
-    });
+    // const [activeTab, setActiveTab] = useState('all');
+    // const {
+    //     data: allProductTypes,
+    //     isLoading,
+    //     isError,
+    // } = useQuery({
+    //     queryKey: ['allProductTypes'],
+    //     queryFn: fetchProductTypes,
+    // });
 
-    if (isLoading || isError) {
-        return null; // or a loading spinner
-    }
+    // if (isLoading || isError) {
+    //     return null; // or a loading spinner
+    // }
 
     // const filteredProducts = activeTab === 'all' ? products : products.results.products.filter((product) => product.category === activeTab);
 
@@ -188,7 +189,7 @@ export default function FeaturedProducts() {
                     </div>
                 </Tabs> */}
 
-                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
+                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
                     {products.results.products?.map((product, index) => (
                         <motion.div
                             key={product}
@@ -206,7 +207,7 @@ export default function FeaturedProducts() {
 
                                 <div className='relative h-56 overflow-hidden'>
                                     <Image
-                                        src={`/static/products/${product}.jpg`}
+                                        src={`/static/products/${v.slugify(product)}.jpg`}
                                         alt={product}
                                         fill
                                         className='object-cover transition-transform duration-500 group-hover:scale-110'
