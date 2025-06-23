@@ -206,7 +206,7 @@ export default function FeaturedProducts() {
 
                                 <div className='relative h-56 overflow-hidden'>
                                     <Image
-                                        src='/static/products/rod-arm-bush-rubber.jpg'
+                                        src={`/static/products/${product}.jpg`}
                                         alt={product}
                                         fill
                                         className='object-cover transition-transform duration-500 group-hover:scale-110'
