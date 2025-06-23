@@ -12,112 +12,126 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 import { fetchProductTypes } from './api/products/products';
+import { ApiResponse, RawAllProductNamesResult } from './api/products/types';
 
-const products = [
-    {
-        id: 1,
-        name: 'ROD/ARM BUSH RUBBER',
-        category: 'suspension',
-        price: 89.99,
-        rating: 4.8,
-        image: '/static/products/rod-arm-bush-rubber.jpg',
-        discount: 15,
-        tag: 'Best Seller',
-        stock: 42,
+const products: ApiResponse<RawAllProductNamesResult> = {
+    success: true,
+    results: {
+        products: [
+            'Engine Compartment Parts',
+            'Steering System Parts',
+            'Transmission Parts',
+            'Bearing and Seals',
+            'Suspension Parts',
+            'Wiper Blades',
+        ],
     },
-    {
-        id: 2,
-        name: 'V-BELT',
-        category: 'suspension',
-        price: 89.99,
-        rating: 4.8,
-        image: '/static/products/v-belt.jpg',
-        discount: 15,
-        tag: 'Best Seller',
-        stock: 42,
-    },
-    // {
-    //     product_name: 'ROD/ARM BUSH RUBBER',
-    //     product_image: ['https://www.jikiu.com/images/069d3bb002acd8d7dd095917f9efe4cb/thumb_images/6c9c8956817e303e7b7692b7d34dce02.jpg'],
-    // },
-    // {
-    //     id: 2,
-    //     name: 'Heavy Duty Alternator',
-    //     category: 'electrical',
-    //     price: 149.99,
-    //     rating: 4.7,
-    //     image: 'https://images.pexels.com/photos/3807172/pexels-photo-3807172.jpeg',
-    //     discount: 0,
-    //     tag: '',
-    //     stock: 18,
-    // },
-    // {
-    //     id: 3,
-    //     name: 'Engine Oil Filter',
-    //     category: 'filters',
-    //     price: 12.99,
-    //     rating: 4.5,
-    //     image: 'https://images.pexels.com/photos/3807195/pexels-photo-3807195.jpeg',
-    //     discount: 0,
-    //     tag: '',
-    //     stock: 120,
-    // },
-    // {
-    //     id: 4,
-    //     name: 'Performance Spark Plugs',
-    //     category: 'engine',
-    //     price: 24.99,
-    //     rating: 4.9,
-    //     image: 'https://images.pexels.com/photos/2244746/pexels-photo-2244746.jpeg',
-    //     discount: 10,
-    //     tag: 'Hot Deal',
-    //     stock: 35,
-    // },
-    // {
-    //     id: 5,
-    //     name: 'Power Steering Pump',
-    //     category: 'steering',
-    //     price: 129.99,
-    //     rating: 4.6,
-    //     image: 'https://images.pexels.com/photos/188777/pexels-photo-188777.jpeg',
-    //     discount: 0,
-    //     tag: '',
-    //     stock: 14,
-    // },
-    // {
-    //     id: 6,
-    //     name: 'Suspension Control Arm',
-    //     category: 'suspension',
-    //     price: 79.99,
-    //     rating: 4.7,
-    //     image: 'https://images.pexels.com/photos/190574/pexels-photo-190574.jpeg',
-    //     discount: 5,
-    //     tag: '',
-    //     stock: 27,
-    // },
-    // {
-    //     id: 7,
-    //     name: 'LED Headlight Bulbs',
-    //     category: 'electrical',
-    //     price: 49.99,
-    //     rating: 4.8,
-    //     image: 'https://images.pexels.com/photos/210158/pexels-photo-210158.jpeg',
-    //     discount: 0,
-    //     tag: 'New Arrival',
-    //     stock: 50,
-    // },
-    // {
-    //     id: 8,
-    //     name: 'High Flow Air Filter',
-    //     category: 'filters',
-    //     price: 29.99,
-    //     rating: 4.5,
-    //     image: 'https://images.pexels.com/photos/4489794/pexels-photo-4489794.jpeg',
-    //     discount: 0,
-    //     tag: '',
-    //     stock: 65,
-    // },
-];
+};
+//  [
+//     {
+//         id: 1,
+//         name: 'ROD/ARM BUSH RUBBER',
+//         category: 'suspension',
+//         price: 89.99,
+//         rating: 4.8,
+//         image: '/static/products/rod-arm-bush-rubber.jpg',
+//         discount: 15,
+//         tag: 'Best Seller',
+//         stock: 42,
+//     },
+//     {
+//         id: 2,
+//         name: 'V-BELT',
+//         category: 'suspension',
+//         price: 89.99,
+//         rating: 4.8,
+//         image: '/static/products/v-belt.jpg',
+//         discount: 15,
+//         tag: 'Best Seller',
+//         stock: 42,
+//     },
+// {
+//     product_name: 'ROD/ARM BUSH RUBBER',
+//     product_image: ['https://www.jikiu.com/images/069d3bb002acd8d7dd095917f9efe4cb/thumb_images/6c9c8956817e303e7b7692b7d34dce02.jpg'],
+// },
+// {
+//     id: 2,
+//     name: 'Heavy Duty Alternator',
+//     category: 'electrical',
+//     price: 149.99,
+//     rating: 4.7,
+//     image: 'https://images.pexels.com/photos/3807172/pexels-photo-3807172.jpeg',
+//     discount: 0,
+//     tag: '',
+//     stock: 18,
+// },
+// {
+//     id: 3,
+//     name: 'Engine Oil Filter',
+//     category: 'filters',
+//     price: 12.99,
+//     rating: 4.5,
+//     image: 'https://images.pexels.com/photos/3807195/pexels-photo-3807195.jpeg',
+//     discount: 0,
+//     tag: '',
+//     stock: 120,
+// },
+// {
+//     id: 4,
+//     name: 'Performance Spark Plugs',
+//     category: 'engine',
+//     price: 24.99,
+//     rating: 4.9,
+//     image: 'https://images.pexels.com/photos/2244746/pexels-photo-2244746.jpeg',
+//     discount: 10,
+//     tag: 'Hot Deal',
+//     stock: 35,
+// },
+// {
+//     id: 5,
+//     name: 'Power Steering Pump',
+//     category: 'steering',
+//     price: 129.99,
+//     rating: 4.6,
+//     image: 'https://images.pexels.com/photos/188777/pexels-photo-188777.jpeg',
+//     discount: 0,
+//     tag: '',
+//     stock: 14,
+// },
+// {
+//     id: 6,
+//     name: 'Suspension Control Arm',
+//     category: 'suspension',
+//     price: 79.99,
+//     rating: 4.7,
+//     image: 'https://images.pexels.com/photos/190574/pexels-photo-190574.jpeg',
+//     discount: 5,
+//     tag: '',
+//     stock: 27,
+// },
+// {
+//     id: 7,
+//     name: 'LED Headlight Bulbs',
+//     category: 'electrical',
+//     price: 49.99,
+//     rating: 4.8,
+//     image: 'https://images.pexels.com/photos/210158/pexels-photo-210158.jpeg',
+//     discount: 0,
+//     tag: 'New Arrival',
+//     stock: 50,
+// },
+// {
+//     id: 8,
+//     name: 'High Flow Air Filter',
+//     category: 'filters',
+//     price: 29.99,
+//     rating: 4.5,
+//     image: 'https://images.pexels.com/photos/4489794/pexels-photo-4489794.jpeg',
+//     discount: 0,
+//     tag: '',
+//     stock: 65,
+// },
+// ];
 
 export default function FeaturedProducts() {
     const [activeTab, setActiveTab] = useState('all');
@@ -134,7 +148,7 @@ export default function FeaturedProducts() {
         return null; // or a loading spinner
     }
 
-    const filteredProducts = activeTab === 'all' ? products : products.filter((product) => product.category === activeTab);
+    // const filteredProducts = activeTab === 'all' ? products : products.results.products.filter((product) => product.category === activeTab);
 
     return (
         <section className='py-16'>
@@ -152,7 +166,7 @@ export default function FeaturedProducts() {
                     </p>
                 </motion.div>
 
-                <Tabs defaultValue='all' className='mb-12' onValueChange={setActiveTab}>
+                {/* <Tabs defaultValue='all' className='mb-12' onValueChange={setActiveTab}>
                     <div className='flex justify-center'>
                         <TabsList className='bg-gray-100'>
                             <TabsTrigger value='all' className='data-[state=active]:bg-red-500 data-[state=active]:text-white'>
@@ -172,10 +186,10 @@ export default function FeaturedProducts() {
                             </TabsTrigger>
                         </TabsList>
                     </div>
-                </Tabs>
+                </Tabs> */}
 
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
-                    {allProductTypes?.map((product, index) => (
+                    {products.results.products?.map((product, index) => (
                         <motion.div
                             key={product}
                             initial={{ opacity: 0, y: 20 }}
