@@ -135,7 +135,7 @@ export default function Catalog() {
                                 </Button>
                             )}
                         </div>
-                        <div className='w-2/5'>
+                        <div className='w-2/5 flex gap-2'>
                             <Select value={selectedProduct} onValueChange={handleSelect}>
                                 <SelectTrigger>
                                     <SelectValue placeholder='Select product...' />
@@ -154,6 +154,11 @@ export default function Catalog() {
                                     )}
                                 </SelectContent>
                             </Select>
+                            {selectedProduct && (
+                                <Button variant='outline' size='sm' className='h-full' onClick={() => setSelectedProduct('')}>
+                                    <X className='h-4 w-4' />
+                                </Button>
+                            )}
                         </div>
                     </div>
 
