@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Facebook, Instagram, Mail, MapPin, Phone } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -65,12 +65,26 @@ export default function Footer() {
                 <div className='border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center'>
                     <p className='text-gray-500 text-sm mb-4 md:mb-0'>© {new Date().getFullYear()}. Amip Trading Co. L.L.C.</p>
                     <div className='flex space-x-4'>
-                        <Button variant='ghost' size='icon' className='rounded-full hover:bg-white/10'>
-                            <Facebook className='h-5 w-5' />
-                        </Button>
-                        <Button variant='ghost' size='icon' className='rounded-full hover:bg-white/10'>
-                            <Instagram className='h-5 w-5' />
-                        </Button>
+                        <Link prefetch={false} href='https://www.instagram.com/amip_trading/' target='_blank' rel='noopener noreferrer'>
+                            <Button variant='ghost' size='icon' className='rounded-full hover:bg-white/10'>
+                                <Instagram className='h-5 w-5' />
+                            </Button>
+                        </Link>
+                        <Link prefetch={false} href='https://www.facebook.com/amiptrading' target='_blank' rel='noopener noreferrer'>
+                            <Button variant='ghost' size='icon' className='rounded-full hover:bg-white/10'>
+                                <Facebook className='h-5 w-5' />
+                            </Button>
+                        </Link>
+                        {/* <Link
+                            prefetch={false}
+                            href='https://www.linkedin.com/company/amiptrading'
+                            target='_blank'
+                            rel='noopener noreferrer'
+                        >
+                            <Button variant='ghost' size='icon' className='rounded-full hover:bg-white/10'>
+                                <Linkedin className='h-5 w-5' />
+                            </Button>
+                        </Link> */}
                     </div>
                 </div>
             </div>
