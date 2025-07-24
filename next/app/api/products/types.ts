@@ -1,6 +1,4 @@
-export type ProductSpecification = {
-    [key: string]: string;
-};
+export type ProductSpecification = Record<string, string>;
 
 export type RawProductResult = {
     total: number;

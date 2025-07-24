@@ -55,10 +55,7 @@ function parseProducts(data: RawProduct[]): Product[] {
         id: product._id,
         name: product.product_name,
         image: product.product_image,
-        specifications: {
-            location: product.specifications.Location,
-            position: product.specifications.Position,
-        },
+        specifications: product.specifications,
         number: product.Number,
         owner: product.Owner,
     }));
@@ -79,6 +76,7 @@ export async function fetchProductTypes() {
         throw new Error('Failed to fetch product types');
     }
     const data = (await res.json()) as ApiResponse<RawAllProductNamesResult>;
+
     return data.results.products;
 }
 

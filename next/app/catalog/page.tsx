@@ -44,9 +44,10 @@ export default function Catalog() {
                 header: 'Specifications',
                 cell: ({ row }) => {
                     const specs = row.getValue('specifications') as ProductSpecification;
+                    const filteredSpecs = Object.entries(specs).filter(([, value]) => value && value.trim() !== '');
                     return (
                         <div className='flex flex-wrap gap-1'>
-                            {Object.entries(specs).map(([key, value]) => (
+                            {filteredSpecs.map(([key, value]) => (
                                 <div key={key} className='flex justify-between border-b border-gray-100 pb-2'>
                                     <span className='bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full'>{value}</span>
                                 </div>
@@ -78,6 +79,7 @@ export default function Catalog() {
     });
 
     const products = data?.results.products || [];
+    console.log('Products:', products);
     const productNames = allProductTypes || [];
     const totalPages = data?.results.total_pages || 0;
 
