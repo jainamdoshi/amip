@@ -1,12 +1,14 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { cn } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import { Cell, ColumnDef, flexRender, getCoreRowModel, Table as TableType, useReactTable } from '@tanstack/react-table';
-import { Loader2, X } from 'lucide-react';
+import { Check, ChevronsUpDown, Loader2, X } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { useDebounce } from 'use-debounce';
@@ -18,6 +20,7 @@ export default function Catalog() {
     const [selectedProduct, setSelectedProduct] = useState<string>(searchParams.get('product_name') || '');
     const [productNumber, setProductNumber] = useState<string>(searchParams.get('product_number') || '');
     const [debouncedProductNumber] = useDebounce(productNumber, 300);
+    const [open, setOpen] = useState(false);
 
     const router = useRouter();
 
@@ -79,7 +82,6 @@ export default function Catalog() {
     });
 
     const products = data?.results.products || [];
-    console.log('Products:', products);
     const productNames = allProductTypes || [];
     const totalPages = data?.results.total_pages || 0;
 
@@ -138,24 +140,48 @@ export default function Catalog() {
                             )}
                         </div>
                         <div className='w-2/5 flex gap-2'>
-                            <Select value={selectedProduct} onValueChange={handleSelect}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder='Select product...' />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {productNameLoading ? (
-                                        <span className='flex items-center justify-center p-4'>
-                                            <Loader2 className='animate-spin' />
-                                        </span>
-                                    ) : (
-                                        productNames.map((product) => (
-                                            <SelectItem key={product} value={product}>
-                                                {product}
-                                            </SelectItem>
-                                        ))
-                                    )}
-                                </SelectContent>
-                            </Select>
+                            <Popover open={open} onOpenChange={setOpen}>
+                                <PopoverTrigger asChild>
+                                    <Button variant='outline' className='w-full justify-between font-normal text-gray-500'>
+                                        {selectedProduct ? selectedProduct : 'Select Product Type'}
+                                        <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className='w-full p-0' align='start'>
+                                    <Command>
+                                        <CommandInput placeholder='Search product type...' />
+                                        <CommandList>
+                                            <CommandEmpty>No product type found.</CommandEmpty>
+                                            <CommandGroup>
+                                                {!productNameLoading ? (
+                                                    productNames.map((product) => (
+                                                        <CommandItem
+                                                            key={product}
+                                                            value={product}
+                                                            onSelect={(currentValue) => {
+                                                                handleSelect(currentValue);
+                                                                setOpen(false);
+                                                            }}
+                                                        >
+                                                            <Check
+                                                                className={cn(
+                                                                    'mr-2 h-4 w-4',
+                                                                    product === selectedProduct ? 'opacity-100' : 'opacity-0'
+                                                                )}
+                                                            />
+                                                            {product}
+                                                        </CommandItem>
+                                                    ))
+                                                ) : (
+                                                    <span className='flex items-center justify-center p-4'>
+                                                        <Loader2 className='animate-spin' />
+                                                    </span>
+                                                )}
+                                            </CommandGroup>
+                                        </CommandList>
+                                    </Command>
+                                </PopoverContent>
+                            </Popover>
                             {selectedProduct && (
                                 <Button variant='outline' size='sm' className='h-full' onClick={() => setSelectedProduct('')}>
                                     <X className='h-4 w-4' />

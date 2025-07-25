@@ -20,7 +20,7 @@ export type RawProduct = {
 };
 
 export type RawCrossSearchResult = {
-    user_id: {
+    results: {
         product: {
             product_name: string;
             specifications: ProductSpecification;

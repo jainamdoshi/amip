@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
+import { Facebook, Instagram, Mail, MapPin, Phone } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
