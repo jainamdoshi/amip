@@ -221,11 +221,11 @@ export default function FeaturedProducts() {
                                             <Button size='icon' variant='secondary' className='rounded-full'>
                                                 <Heart className='h-4 w-4' />
                                             </Button> */}
-                                            <Link href={`/catalog?product_name=${encodeURIComponent(product)}`}>
+                                            {/* <Link href={`/catalog?product_name=${encodeURIComponent(product)}`}>
                                                 <Button size='icon' variant='secondary' className='rounded-full'>
                                                     <Eye className='h-4 w-4' />
                                                 </Button>
-                                            </Link>
+                                            </Link> */}
                                         </div>
                                     </div>
                                 </div>
