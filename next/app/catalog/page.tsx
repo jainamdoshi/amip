@@ -117,8 +117,8 @@ export default function Catalog() {
             <div className='mx-auto px-4 py-24'>
                 <div className='bg-white rounded-lg shadow-md p-6 mb-8'>
                     <h1 className='text-3xl font-bold mb-8'>Auto Parts Catalog</h1>
-                    <div className='relative mb-6 flex w-full gap-3'>
-                        <div className='relative w-3/5'>
+                    <div className='relative mb-6 flex w-full gap-3 max-md:flex-col'>
+                        <div className='relative md:w-3/5'>
                             <Input
                                 type='text'
                                 placeholder='Search Product Number'
@@ -139,7 +139,7 @@ export default function Catalog() {
                                 </Button>
                             )}
                         </div>
-                        <div className='w-2/5 flex gap-2'>
+                        <div className='md:w-2/5 flex gap-2'>
                             <Popover open={open} onOpenChange={setOpen}>
                                 <PopoverTrigger asChild>
                                     <Button variant='outline' className='w-full justify-between font-normal text-gray-500'>
@@ -183,7 +183,7 @@ export default function Catalog() {
                                 </PopoverContent>
                             </Popover>
                             {selectedProduct && (
-                                <Button variant='outline' size='sm' className='h-full' onClick={() => setSelectedProduct('')}>
+                                <Button variant='outline' size='sm' onClick={() => setSelectedProduct('')}>
                                     <X className='h-4 w-4' />
                                 </Button>
                             )}

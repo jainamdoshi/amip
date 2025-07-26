@@ -3,7 +3,7 @@
 import Logo from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Menu, Phone, Search, ShoppingCart, User, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -75,7 +75,7 @@ export default function Header() {
                     <div className='bg-white h-full w-4/5 max-w-sm p-5 shadow-xl animate-in slide-in-from-left'>
                         <div className='flex justify-between items-center mb-8'>
                             <Link href='/' className='text-2xl font-bold'>
-                                <Image src='/static/ATCO.png' alt='Logo' width={100} height={50} className='h-8' />
+                                <Image src='/static/ATCO-black.png' alt='Logo' width={100} height={50} className='h-8' />
                                 <span className='text-primary'>Auto</span>
                                 <span className='text-red-500'>Parts</span>
                             </Link>
