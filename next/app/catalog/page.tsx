@@ -19,7 +19,8 @@ export default function Catalog() {
     const searchParams = useSearchParams();
     const [selectedProduct, setSelectedProduct] = useState<string>(searchParams.get('product_name') || '');
     const [productNumber, setProductNumber] = useState<string>(searchParams.get('product_number') || '');
-    const [debouncedProductNumber] = useDebounce(productNumber, 300);
+    const [productBrand, setProductBrand] = useState<string>(searchParams.get('product_brand') || '');
+    const [debouncedSearchFilterValue] = useDebounce({ productNumber, productBrand }, 300);
     const [open, setOpen] = useState(false);
 
     const router = useRouter();
@@ -39,8 +40,8 @@ export default function Catalog() {
                 header: 'Product Description',
             },
             {
-                accessorKey: 'owner',
-                header: 'Owner',
+                accessorKey: 'brand',
+                header: 'Brand Name',
             },
             {
                 accessorKey: 'specifications',
@@ -76,9 +77,9 @@ export default function Catalog() {
     // const queryKey = ;
 
     const { data, isLoading, error } = useQuery({
-        queryKey: ['products', selectedProduct, debouncedProductNumber || '-', pagination],
-        queryFn: () => fetchProducts(selectedProduct || '', debouncedProductNumber, pagination),
-        enabled: !!debouncedProductNumber || !!selectedProduct,
+        queryKey: ['products', selectedProduct, debouncedSearchFilterValue, pagination],
+        queryFn: () => fetchProducts(selectedProduct || '', debouncedSearchFilterValue, pagination),
+        enabled: !!debouncedSearchFilterValue || !!selectedProduct,
     });
 
     const products = data?.results.products || [];
@@ -112,13 +113,20 @@ export default function Catalog() {
         );
     };
 
+    const onBranchSearchChange = (value: string) => {
+        setProductBrand(value);
+        router.push(
+            `?product_brand=${encodeURIComponent(value)}${selectedProduct ? `&product_brand=${encodeURIComponent(selectedProduct)}` : ''}`
+        );
+    };
+
     return (
         <main className='min-h-screen bg-gray-500'>
             <div className='mx-auto px-4 py-24'>
                 <div className='bg-white rounded-lg shadow-md p-6 mb-8'>
                     <h1 className='text-3xl font-bold mb-8'>Auto Parts Catalog</h1>
-                    <div className='relative mb-6 flex w-full gap-3 max-md:flex-col'>
-                        <div className='relative md:w-3/5'>
+                    <div className='relative mb-6 flex w-full gap-3 flex-col'>
+                        <div className='relative w-full'>
                             <Input
                                 type='text'
                                 placeholder='Search Product Number'
@@ -139,7 +147,28 @@ export default function Catalog() {
                                 </Button>
                             )}
                         </div>
-                        <div className='md:w-2/5 flex gap-2'>
+                        <div className='w-full flex gap-2'>
+                            <div className='relative w-2/3'>
+                                <Input
+                                    type='text'
+                                    placeholder='Search Brand Name'
+                                    value={productBrand}
+                                    onChange={(e) => onBranchSearchChange(e.target.value)}
+                                    className=''
+                                />
+                                {productBrand && (
+                                    <Button
+                                        type='button'
+                                        variant='ghost'
+                                        size='icon'
+                                        className='absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100'
+                                        onClick={() => onBranchSearchChange('')}
+                                    >
+                                        <X className='h-4 w-4' />
+                                        <span className='sr-only'>Clear</span>
+                                    </Button>
+                                )}
+                            </div>
                             <Popover open={open} onOpenChange={setOpen}>
                                 <PopoverTrigger asChild>
                                     <Button variant='outline' className='w-full justify-between font-normal text-gray-500'>

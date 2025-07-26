@@ -49,7 +49,7 @@ export type Product = {
     image: string[];
     specifications: ProductSpecification;
     number: string;
-    owner: string;
+    brand: string;
 };
 
 export type ApiResponse<T> = {

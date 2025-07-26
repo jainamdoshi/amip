@@ -10,11 +10,16 @@ export type ProductSearchRequest = {
     catalog_name: string;
     product_name?: string;
     product_number?: string;
+    brand_name?: string;
 };
 
 const endpoint = process.env.NEXT_PUBLIC_BACKEND_URL || '';
 
-export async function fetchProducts(productName: string, productNumber: string, pagination: Pagination) {
+export async function fetchProducts(
+    productName: string,
+    { productNumber, productBrand }: { productNumber: string; productBrand: string },
+    pagination: Pagination
+) {
     const body: ProductSearchRequest = {
         user_id: '123',
         catalog_name: 'JINKU_CATALOG',
@@ -26,6 +31,10 @@ export async function fetchProducts(productName: string, productNumber: string, 
 
     if (productNumber) {
         body['product_number'] = productNumber;
+    }
+
+    if (productBrand) {
+        body['brand_name'] = productBrand;
     }
 
     const res = await fetch(`${endpoint}/catalog/search?page=${pagination.pageIndex + 1}&page_size=${pagination.pageSize}`, {
@@ -57,7 +66,7 @@ function parseProducts(data: RawProduct[]): Product[] {
         image: product.product_image,
         specifications: product.specifications,
         number: product.Number,
-        owner: product.Owner,
+        brand: product.Owner,
     }));
 }
 
