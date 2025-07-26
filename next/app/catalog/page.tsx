@@ -147,8 +147,8 @@ export default function Catalog() {
                                 </Button>
                             )}
                         </div>
-                        <div className='w-full flex gap-2'>
-                            <div className='relative w-2/3'>
+                        <div className='w-full flex gap-2 max-md:flex-col'>
+                            <div className='relative md:w-2/3'>
                                 <Input
                                     type='text'
                                     placeholder='Search Brand Name'
