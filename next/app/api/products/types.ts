@@ -51,8 +51,3 @@ export type Product = {
     number: string;
     brand: string;
 };
-
-export type ApiResponse<T> = {
-    success: boolean;
-    results: T;
-};

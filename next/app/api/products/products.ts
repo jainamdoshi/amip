@@ -1,4 +1,5 @@
-import { ApiResponse, Product, RawAllProductNamesResult, RawCrossSearchResult, RawProduct, RawProductResult } from './types';
+import { ApiResponse, endpoint } from '../common';
+import { Product, RawAllProductNamesResult, RawCrossSearchResult, RawProduct, RawProductResult } from './types';
 
 export type Pagination = {
     pageIndex: number;
@@ -12,8 +13,6 @@ export type ProductSearchRequest = {
     product_number?: string;
     brand_name?: string;
 };
-
-const endpoint = process.env.NEXT_PUBLIC_BACKEND_URL || '';
 
 export async function fetchProducts(
     productName: string,
