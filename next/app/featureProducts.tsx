@@ -29,6 +29,87 @@ export default function FeaturedProducts() {
     const categories = rawCategories?.results.categories || [];
     const filteredProducts = activeTab === 'all' ? categories : categories.filter((category) => category.category === activeTab);
 
+    // Animation variants
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.2,
+                delayChildren: 0.1,
+            },
+        },
+    };
+
+    const cardVariants = {
+        hidden: {
+            opacity: 0,
+            y: 50,
+            scale: 0.95,
+        },
+        visible: {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            transition: {
+                duration: 0.6,
+                ease: [0.25, 0.46, 0.45, 0.94],
+            },
+        },
+    };
+
+    const imageVariants = {
+        hover: {
+            scale: 1.05,
+            transition: {
+                duration: 0.4,
+                ease: 'easeOut',
+            },
+        },
+    };
+
+    const subCategoryVariants = {
+        hidden: { opacity: 0, x: -20 },
+        visible: {
+            opacity: 1,
+            x: 0,
+            transition: {
+                duration: 0.3,
+            },
+        },
+        hover: {
+            scale: 1.02,
+            x: 4,
+            transition: {
+                duration: 0.2,
+                ease: 'easeOut',
+            },
+        },
+    };
+
+    const subCategoryContainerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.05,
+                delayChildren: 0.2,
+            },
+        },
+    };
+
+    const titleVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.5,
+                ease: 'easeOut',
+            },
+        },
+    };
+
     return (
         <section className='w-full py-12 md:py-16 lg:py-20'>
             <div className='container px-4 md:px-6 mx-auto'>
@@ -161,84 +242,3 @@ export default function FeaturedProducts() {
         </section>
     );
 }
-
-// Animation variants
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.2,
-            delayChildren: 0.1,
-        },
-    },
-};
-
-const cardVariants = {
-    hidden: {
-        opacity: 0,
-        y: 50,
-        scale: 0.95,
-    },
-    visible: {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        transition: {
-            duration: 0.6,
-            ease: [0.25, 0.46, 0.45, 0.94],
-        },
-    },
-};
-
-const imageVariants = {
-    hover: {
-        scale: 1.05,
-        transition: {
-            duration: 0.4,
-            ease: 'easeOut',
-        },
-    },
-};
-
-const subCategoryVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: {
-        opacity: 1,
-        x: 0,
-        transition: {
-            duration: 0.3,
-        },
-    },
-    hover: {
-        scale: 1.02,
-        x: 4,
-        transition: {
-            duration: 0.2,
-            ease: 'easeOut',
-        },
-    },
-};
-
-const subCategoryContainerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.05,
-            delayChildren: 0.2,
-        },
-    },
-};
-
-const titleVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.5,
-            ease: 'easeOut',
-        },
-    },
-};
