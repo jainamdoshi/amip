@@ -2,7 +2,7 @@
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useQuery } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -30,7 +30,7 @@ export default function FeaturedProducts() {
     const filteredProducts = activeTab === 'all' ? categories : categories.filter((category) => category.category === activeTab);
 
     // Animation variants
-    const containerVariants = {
+    const containerVariants: Variants = {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
@@ -41,7 +41,7 @@ export default function FeaturedProducts() {
         },
     };
 
-    const cardVariants = {
+    const cardVariants: Variants = {
         hidden: {
             opacity: 0,
             y: 50,
@@ -58,7 +58,7 @@ export default function FeaturedProducts() {
         },
     };
 
-    const imageVariants = {
+    const imageVariants: Variants = {
         hover: {
             scale: 1.05,
             transition: {
@@ -68,7 +68,7 @@ export default function FeaturedProducts() {
         },
     };
 
-    const subCategoryVariants = {
+    const subCategoryVariants: Variants = {
         hidden: { opacity: 0, x: -20 },
         visible: {
             opacity: 1,
@@ -87,7 +87,7 @@ export default function FeaturedProducts() {
         },
     };
 
-    const subCategoryContainerVariants = {
+    const subCategoryContainerVariants: Variants = {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
@@ -98,7 +98,7 @@ export default function FeaturedProducts() {
         },
     };
 
-    const titleVariants = {
+    const titleVariants: Variants = {
         hidden: { opacity: 0, y: 20 },
         visible: {
             opacity: 1,
