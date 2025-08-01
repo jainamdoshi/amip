@@ -1,5 +1,6 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import { endpoint } from '../common';
 
 export async function generateUserId() {
@@ -16,4 +17,16 @@ export async function generateUserId() {
 
     const data = await result.json();
     return data.user_id;
+}
+
+export async function getUserId() {
+    'use server';
+    const cookieStore = await cookies();
+    if (!cookieStore.has('user_id')) {
+        cookieStore.set('user_id', await generateUserId(), {
+            expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        });
+    }
+
+    return cookieStore.get('user_id')?.value || null;
 }
