@@ -14,6 +14,7 @@ import { useMemo, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 import { fetchProducts, fetchProductTypes } from '../api/products/products';
 import { Product, ProductSpecification } from '../api/products/types';
+import { useUserId } from '@/providers/userProvider';
 
 export default function Catalog() {
     const searchParams = useSearchParams();
@@ -68,17 +69,16 @@ export default function Catalog() {
         pageIndex: 0,
         pageSize: 20,
     });
+    const userId = useUserId();
 
     const { data: allProductTypes, isLoading: productNameLoading } = useQuery({
         queryKey: ['allProductTypes'],
-        queryFn: fetchProductTypes,
+        queryFn: () => fetchProductTypes(userId),
     });
-
-    // const queryKey = ;
 
     const { data, isLoading, error } = useQuery({
         queryKey: ['products', selectedProduct, debouncedSearchFilterValue, pagination],
-        queryFn: () => fetchProducts(selectedProduct || '', debouncedSearchFilterValue, pagination),
+        queryFn: () => fetchProducts(selectedProduct || '', debouncedSearchFilterValue, pagination, userId),
         enabled: !!debouncedSearchFilterValue || !!selectedProduct,
     });
 

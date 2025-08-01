@@ -9,9 +9,11 @@ import Link from 'next/link';
 import { useState } from 'react';
 import v from 'voca';
 import { fetchCategories } from './api/categories/categories';
+import { useUserId } from '@/providers/userProvider';
 
 export default function FeaturedProducts() {
     const [activeTab, setActiveTab] = useState('all');
+    const userId = useUserId();
 
     const {
         data: rawCategories,
@@ -19,7 +21,7 @@ export default function FeaturedProducts() {
         isError,
     } = useQuery({
         queryKey: ['productCategories'],
-        queryFn: fetchCategories,
+        queryFn: () => fetchCategories(userId),
     });
 
     if (isLoading || isError) {

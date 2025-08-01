@@ -17,10 +17,11 @@ export type ProductSearchRequest = {
 export async function fetchProducts(
     productName: string,
     { productNumber, productBrand }: { productNumber: string; productBrand: string },
-    pagination: Pagination
+    pagination: Pagination,
+    userId: string
 ) {
     const body: ProductSearchRequest = {
-        user_id: '123',
+        user_id: userId,
         catalog_name: 'JINKU_CATALOG',
     };
 
@@ -35,7 +36,6 @@ export async function fetchProducts(
     if (productBrand) {
         body['brand_name'] = productBrand;
     }
-
     const res = await fetch(`${endpoint}/catalog/search?page=${pagination.pageIndex + 1}&page_size=${pagination.pageSize}`, {
         method: 'POST',
         headers: {
@@ -69,11 +69,11 @@ function parseProducts(data: RawProduct[]): Product[] {
     }));
 }
 
-export async function fetchProductTypes() {
+export async function fetchProductTypes(userId: string) {
     const res = await fetch(`${endpoint}/catalog/products`, {
         method: 'POST',
         body: JSON.stringify({
-            user_id: '123',
+            user_id: userId,
             catalog_name: 'JINKU_CATALOG',
         }),
         headers: {
@@ -88,11 +88,11 @@ export async function fetchProductTypes() {
     return data.results.products;
 }
 
-export async function fetchProductDetails(productId: string) {
+export async function fetchProductDetails(productId: string, userId: string) {
     const res = await fetch(`${endpoint}/catalog/cross-search`, {
         method: 'POST',
         body: JSON.stringify({
-            user_id: '123',
+            user_id: userId,
             catalog_name: 'JINKU_CATALOG',
             product_mid: productId,
         }),

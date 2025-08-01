@@ -1,11 +1,11 @@
 import { ApiResponse, endpoint } from '../common';
 import { RawAllCategoriesResult } from './types';
 
-export function fetchCategories() {
+export function fetchCategories(userId: string) {
     return fetch(`${endpoint}/catalog/categories`, {
         method: 'POST',
         body: JSON.stringify({
-            user_id: '123',
+            user_id: userId,
             catalog_name: 'JINKU_CATALOG',
         }),
         headers: {
