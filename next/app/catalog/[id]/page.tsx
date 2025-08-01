@@ -5,6 +5,7 @@ import { CrossSearch } from '@/app/api/products/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { useUserId } from '@/providers/userProvider';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { ArrowLeft, ArrowUpDown, Loader2 } from 'lucide-react';
@@ -17,6 +18,7 @@ export default function ProductPage({
     params: { id: string };
 }>) {
     const router = useRouter();
+    const userId = useUserId();
 
     const {
         data: productData,
@@ -24,7 +26,7 @@ export default function ProductPage({
         isError,
     } = useQuery({
         queryKey: ['productData', params.id],
-        queryFn: async () => fetchProductDetails(params.id),
+        queryFn: async () => fetchProductDetails(params.id, userId),
     });
     const columns: ColumnDef<CrossSearch>[] = useMemo(
         () => [
