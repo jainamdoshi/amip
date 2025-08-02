@@ -5,6 +5,7 @@ import Footer from './footer';
 import Header from './header';
 import Providers from '@/providers/providers';
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
                     <Header />
                     {children}
                     <Footer />
+                    <SpeedInsights />
                     <Analytics />
                 </Providers>
             </body>
