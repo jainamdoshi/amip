@@ -1,12 +1,26 @@
 'use client';
 
-import Cookies from 'js-cookie';
-import { createContext, ReactNode, useContext } from 'react';
-
+import { getUserId } from '@/app/api/users/user';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 const UserContext = createContext<string | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-    const userId = Cookies.get('user_id') || '';
+    const [userId, setUserId] = useState('');
+
+    useEffect(() => {
+        const fetchUserId = async () => {
+            const res = await getUserId();
+            if (res) {
+                setUserId(res);
+            }
+        };
+
+        if (!userId) {
+            fetchUserId();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return <UserContext.Provider value={userId}>{children}</UserContext.Provider>;
 };
 
