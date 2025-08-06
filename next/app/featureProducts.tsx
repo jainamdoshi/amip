@@ -22,6 +22,7 @@ export default function FeaturedProducts() {
     } = useQuery({
         queryKey: ['productCategories'],
         queryFn: () => fetchCategories(userId),
+        enabled: !!userId,
     });
 
     if (isLoading || isError) {

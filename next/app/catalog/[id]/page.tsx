@@ -27,6 +27,7 @@ export default function ProductPage({
     } = useQuery({
         queryKey: ['productData', params.id],
         queryFn: async () => fetchProductDetails(params.id, userId),
+        enabled: !!userId,
     });
     const columns: ColumnDef<CrossSearch>[] = useMemo(
         () => [

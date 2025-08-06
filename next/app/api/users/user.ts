@@ -20,7 +20,6 @@ export async function generateUserId() {
 }
 
 export async function getUserId() {
-    'use server';
     const cookieStore = await cookies();
     if (!cookieStore.has('user_id')) {
         cookieStore.set('user_id', await generateUserId(), {

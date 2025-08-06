@@ -74,12 +74,13 @@ export default function Catalog() {
     const { data: allProductTypes, isLoading: productNameLoading } = useQuery({
         queryKey: ['allProductTypes'],
         queryFn: () => fetchProductTypes(userId),
+        enabled: !!userId,
     });
 
     const { data, isLoading, error } = useQuery({
         queryKey: ['products', selectedProduct, debouncedSearchFilterValue, pagination],
         queryFn: () => fetchProducts(selectedProduct || '', debouncedSearchFilterValue, pagination, userId),
-        enabled: !!debouncedSearchFilterValue || !!selectedProduct,
+        enabled: !!debouncedSearchFilterValue || !!selectedProduct || !!userId,
     });
 
     const products = data?.results.products || [];
