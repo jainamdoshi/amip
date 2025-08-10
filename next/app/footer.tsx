@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Facebook, Instagram, Mail, MapPin, Phone } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -27,13 +27,13 @@ export default function Footer() {
                         <ul className='space-y-4'>
                             <li className='flex items-start'>
                                 <MapPin className='h-5 w-5 text-red-500 mr-3 mt-0.5' />
-                                <span className='text-gray-400'>
-                                    Shop No. 5, Abbdullah Mohd Saeed Al Ghobash
-                                    <br />
-                                    Naif Area, Near Tanha (Sutchi) Hotel
-                                    <br />
-                                    Opposite 7 Stage Building Gate 2
-                                </span>
+                                <Link href='https://maps.app.goo.gl/ck1ETYyJAtvZkNDX6'>
+                                    <p className='text-gray-300'>
+                                        Shop 5 - 32A St Abdullah Mohd Syed Al Ghobaash Building
+                                        <br />
+                                        Al Nasser Square, Deira, Dubai
+                                    </p>
+                                </Link>
                             </li>
                             <li className='flex items-center'>
                                 <Phone className='h-5 w-5 text-red-500 mr-3' />
@@ -75,16 +75,16 @@ export default function Footer() {
                                 <Facebook className='h-5 w-5' />
                             </Button>
                         </Link>
-                        {/* <Link
+                        <Link
                             prefetch={false}
-                            href='https://www.linkedin.com/company/amiptrading'
+                            href='https://www.linkedin.com/in/amip-trading-70677645'
                             target='_blank'
                             rel='noopener noreferrer'
                         >
                             <Button variant='ghost' size='icon' className='rounded-full hover:bg-white/10'>
                                 <Linkedin className='h-5 w-5' />
                             </Button>
-                        </Link> */}
+                        </Link>
                     </div>
                 </div>
             </div>
