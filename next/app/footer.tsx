@@ -8,7 +8,7 @@ export default function Footer() {
         <footer className='bg-gray-900 text-white'>
             <div className='container mx-auto px-4 py-12'>
                 <div className='flex flex-col md:flex-row justify-between items-start md:items-center space-y-8 md:space-y-0'>
-                    <div className='w-1/4'>
+                    <div className='md:w-1/4'>
                         <Link href='/' className='text-2xl font-bold flex flex-col justify-center items-center'>
                             <Image src={`/static/ATCO-white.png`} alt='Logo' width={120} height={30} className='h-[3.75rem]' />
                             <div className='flex justify-center w-full'>
