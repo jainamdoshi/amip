@@ -40,7 +40,7 @@ export default function ProductPage({
                             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
                             className='h-auto p-0 font-semibold'
                         >
-                            Manufacturer/Owner
+                            Manufacturer/Brand
                             <ArrowUpDown className='ml-1 h-4 w-4' />
                         </Button>
                     );

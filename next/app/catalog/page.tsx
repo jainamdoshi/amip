@@ -44,23 +44,23 @@ export default function Catalog() {
                 accessorKey: 'brand',
                 header: 'Brand Name',
             },
-            {
-                accessorKey: 'specifications',
-                header: 'Specifications',
-                cell: ({ row }) => {
-                    const specs = row.getValue('specifications') as ProductSpecification;
-                    const filteredSpecs = Object.entries(specs).filter(([, value]) => value && value.trim() !== '');
-                    return (
-                        <div className='flex flex-wrap gap-1'>
-                            {filteredSpecs.map(([key, value]) => (
-                                <div key={key} className='flex justify-between border-b border-gray-100 pb-2'>
-                                    <span className='bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full'>{value}</span>
-                                </div>
-                            ))}
-                        </div>
-                    );
-                },
-            },
+            // {
+            //     accessorKey: 'specifications',
+            //     header: 'Specifications',
+            //     cell: ({ row }) => {
+            //         const specs = row.getValue('specifications') as ProductSpecification;
+            //         const filteredSpecs = Object.entries(specs).filter(([, value]) => value && value.trim() !== '');
+            //         return (
+            //             <div className='flex flex-wrap gap-1'>
+            //                 {filteredSpecs.map(([key, value]) => (
+            //                     <div key={key} className='flex justify-between border-b border-gray-100 pb-2'>
+            //                         <span className='bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full'>{value}</span>
+            //                     </div>
+            //                 ))}
+            //             </div>
+            //         );
+            //     },
+            // },
         ],
         []
     );
@@ -324,7 +324,7 @@ function MainTableBody({
     return (
         <TableBody>
             {table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} onClick={() => handleRowSelected(row.original.id)}>
+                <TableRow key={row.id} onClick={() => handleRowSelected(row.original.id)} className='cursor-pointer hover:bg-gray-100'>
                     {row.getVisibleCells().map((cell: Cell<Product, unknown>) => (
                         <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                     ))}
