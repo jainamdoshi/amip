@@ -30,7 +30,7 @@ export default function Catalog() {
         () => [
             {
                 accessorKey: 'name',
-                header: 'Product Name',
+                header: 'Product Type',
             },
             {
                 accessorKey: 'number',
@@ -43,6 +43,22 @@ export default function Catalog() {
             {
                 accessorKey: 'brand',
                 header: 'Brand Name',
+            },
+            {
+                accessorKey: 'view_product',
+                header: 'Actions',
+                cell: ({ row }) => {
+                    const productId = row.original.id;
+                    return (
+                        <Button
+                            variant='link'
+                            onClick={() => router.push(`/catalog/${productId}`)}
+                            className='text-blue-600 hover:underline pl-0'
+                        >
+                            View
+                        </Button>
+                    );
+                },
             },
             // {
             //     accessorKey: 'specifications',
@@ -62,12 +78,12 @@ export default function Catalog() {
             //     },
             // },
         ],
-        []
+        [router]
     );
 
     const [pagination, setPagination] = useState({
         pageIndex: 0,
-        pageSize: 20,
+        pageSize: 50,
     });
     const userId = useUserId();
 
