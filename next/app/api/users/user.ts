@@ -21,11 +21,11 @@ export async function generateUserId() {
 
 export async function getUserId() {
     const cookieStore = await cookies();
-    if (!cookieStore.has('user_id')) {
-        cookieStore.set('user_id', await generateUserId(), {
+    if (!cookieStore.has('userId')) {
+        cookieStore.set('userId', await generateUserId(), {
             expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         });
     }
 
-    return cookieStore.get('user_id')?.value || null;
+    return cookieStore.get('userId')?.value || null;
 }
