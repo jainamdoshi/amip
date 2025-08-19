@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -126,10 +127,10 @@ export default function Hero() {
                         >
                             View Catalog
                         </Button>
-                        {/* <Button className='bg-red-500 hover:bg-red-600 group'>
-                            Request Quote
+                        <Button className='bg-red-500 hover:bg-red-600 group' onClick={() => router.push('/about-us')}>
+                            Contact Us
                             <ArrowRight className='ml-2 h-4 w-4 transition-transform group-hover:translate-x-1' />
-                        </Button> */}
+                        </Button>
                     </div>
                 </motion.div>
             </div>
