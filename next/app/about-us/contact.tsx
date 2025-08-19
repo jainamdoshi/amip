@@ -33,7 +33,7 @@ export default function Contact() {
                         <div className='bg-gray-900 text-white rounded-lg p-8 h-full'>
                             <h3 className='text-2xl font-semibold mb-6'>Contact Information</h3>
 
-                            <div className='flex flex-wrap w-full justify-around'>
+                            <div className='flex flex-wrap w-full justify-start gap-3'>
                                 <div className='flex items-start'>
                                     <div className='bg-red-500 p-3 rounded-full mr-4'>
                                         <MapPin className='h-5 w-5' />
@@ -41,7 +41,7 @@ export default function Contact() {
                                     <div>
                                         <h4 className='font-medium mb-1'>Our Location</h4>
                                         <Link href='https://maps.app.goo.gl/ck1ETYyJAtvZkNDX6'>
-                                            <p className='text-gray-300'>
+                                            <p className='text-gray-300 pr-2'>
                                                 Shop 5 - 32A St Abdullah Mohd Syed Al Ghobaash Building
                                                 <br />
                                                 Al Nasser Square, Deira, Dubai
