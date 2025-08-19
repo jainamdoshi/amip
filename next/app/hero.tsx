@@ -1,11 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Search, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const slideImages = [
     {
@@ -25,12 +23,9 @@ const slideImages = [
     },
 ];
 
-const vehicleMakes = ['Toyota', 'Honda', 'Ford', 'Chevrolet', 'Nissan', 'BMW', 'Mercedes-Benz', 'Audi', 'Volkswagen', 'Hyundai'];
-
-const years = Array.from({ length: 30 }, (_, i) => (new Date().getFullYear() - i).toString());
-
 export default function Hero() {
     const [currentSlide, setCurrentSlide] = useState(0);
+    const router = useRouter();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -123,15 +118,19 @@ export default function Hero() {
                         </div>
                     </div> */}
 
-                    {/* <div className='flex space-x-6 mt-10'>
-                        <Button variant='outline' className='border-white hover:bg-white hover:text-black'>
+                    <div className='flex space-x-6 mt-10'>
+                        <Button
+                            variant='outline'
+                            className='border-white hover:bg-white hover:text-black'
+                            onClick={() => router.push('/catalog')}
+                        >
                             View Catalog
                         </Button>
-                        <Button className='bg-red-500 hover:bg-red-600 group'>
+                        {/* <Button className='bg-red-500 hover:bg-red-600 group'>
                             Request Quote
                             <ArrowRight className='ml-2 h-4 w-4 transition-transform group-hover:translate-x-1' />
-                        </Button>
-                    </div> */}
+                        </Button> */}
+                    </div>
                 </motion.div>
             </div>
 
