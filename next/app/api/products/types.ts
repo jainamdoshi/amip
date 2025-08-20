@@ -17,12 +17,14 @@ export type RawProduct = {
     specifications: ProductSpecification;
     Owner: string;
     Number: string;
+    price?: string;
 };
 
 export type RawCrossSearchResult = {
     results: {
         product: {
             product_name: string;
+            price?: string;
             specifications: ProductSpecification;
         };
         crosses: [
@@ -50,4 +52,5 @@ export type Product = {
     specifications: ProductSpecification;
     number: string;
     brand: string;
+    price: string | '-';
 };

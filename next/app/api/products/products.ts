@@ -66,6 +66,7 @@ function parseProducts(data: RawProduct[]): Product[] {
         specifications: product.specifications,
         number: product.Number,
         brand: product.Owner,
+        price: product.price || '-',
     }));
 }
 

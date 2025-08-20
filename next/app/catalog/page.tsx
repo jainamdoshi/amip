@@ -45,6 +45,14 @@ export default function Catalog() {
                 header: 'Brand Name',
             },
             {
+                accessorKey: 'price',
+                header: 'Price',
+                cell: ({ row }) => {
+                    const price = row.getValue('price') as string | undefined;
+                    return <span>{price ? `${price}` : '-'}</span>;
+                },
+            },
+            {
                 accessorKey: 'view_product',
                 header: 'Actions',
                 cell: ({ row }) => {

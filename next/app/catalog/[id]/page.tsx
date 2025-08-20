@@ -2,6 +2,7 @@
 
 import { fetchProductDetails } from '@/app/api/products/products';
 import { CrossSearch } from '@/app/api/products/types';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -130,6 +131,10 @@ export default function ProductPage({
 
                 {/* Product Header */}
                 <div className='bg-white rounded-lg shadow-md p-8 mb-8'>
+                    <div className='flex flex-row w-full justify-between'>
+                        <h1 className='text-3xl font-bold text-gray-900 mb-2'>{productData?.product.product_name}</h1>
+                        <div className='text-gray-600 text-2xl'>{productData?.product.price || null}</div>
+                    </div>
                     <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
                         {/* Product Images */}
                         {/* <div className='space-y-4'>
@@ -154,15 +159,6 @@ export default function ProductPage({
 
                         {/* Product Info */}
                         <div className='space-y-6'>
-                            <div>
-                                <h1 className='text-3xl font-bold text-gray-900 mb-2'>{productData?.product.product_name}</h1>
-                                <div className='flex items-center gap-4 mb-4'>
-                                    {/* <Badge variant='outline' className='text-sm'>
-                                        Jinku ID: {productData.jinku_product_id}
-                                    </Badge> */}
-                                </div>
-                            </div>
-
                             {/* Specifications */}
                             <Card>
                                 <CardHeader>
