@@ -29,6 +29,22 @@ export default function Catalog() {
     const columns: ColumnDef<Product>[] = useMemo(
         () => [
             {
+                accessorKey: 'view_product',
+                header: '',
+                cell: ({ row }) => {
+                    const productId = row.original.id;
+                    return (
+                        <Button
+                            variant='link'
+                            onClick={() => router.push(`/catalog/${productId}`)}
+                            className='text-blue-600 hover:underline pl-0'
+                        >
+                            View
+                        </Button>
+                    );
+                },
+            },
+            {
                 accessorKey: 'name',
                 header: 'Product Type',
             },
@@ -52,22 +68,7 @@ export default function Catalog() {
                     return <span>{price ? `${price}` : '-'}</span>;
                 },
             },
-            {
-                accessorKey: 'view_product',
-                header: 'Actions',
-                cell: ({ row }) => {
-                    const productId = row.original.id;
-                    return (
-                        <Button
-                            variant='link'
-                            onClick={() => router.push(`/catalog/${productId}`)}
-                            className='text-blue-600 hover:underline pl-0'
-                        >
-                            View
-                        </Button>
-                    );
-                },
-            },
+
             // {
             //     accessorKey: 'specifications',
             //     header: 'Specifications',
@@ -348,7 +349,7 @@ function MainTableBody({
     return (
         <TableBody>
             {table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} onClick={() => handleRowSelected(row.original.id)} className='cursor-pointer hover:bg-gray-100'>
+                <TableRow key={row.id} className='hover:bg-gray-100'>
                     {row.getVisibleCells().map((cell: Cell<Product, unknown>) => (
                         <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                     ))}
