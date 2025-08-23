@@ -39,3 +39,4 @@
 .venv/
 venv/
 .idea/
+.env
