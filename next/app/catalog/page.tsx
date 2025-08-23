@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
+import { useUserId } from '@/providers/userProvider';
 import { useQuery } from '@tanstack/react-query';
 import { Cell, ColumnDef, flexRender, getCoreRowModel, Table as TableType, useReactTable } from '@tanstack/react-table';
 import { Check, ChevronsUpDown, Loader2, X } from 'lucide-react';
@@ -13,8 +14,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 import { fetchProducts, fetchProductTypes } from '../api/products/products';
-import { Product, ProductSpecification } from '../api/products/types';
-import { useUserId } from '@/providers/userProvider';
+import { Product } from '../api/products/types';
 
 export default function Catalog() {
     const searchParams = useSearchParams();
@@ -302,8 +302,6 @@ function MainTableBody({
     table: TableType<Product>;
     columnsLength: number;
 }) {
-    const router = useRouter();
-
     if (isLoading) {
         return (
             <TableBody>
@@ -341,10 +339,6 @@ function MainTableBody({
             </TableBody>
         );
     }
-
-    const handleRowSelected = (productId: string) => {
-        router.push(`/catalog/${productId}`);
-    };
 
     return (
         <TableBody>
