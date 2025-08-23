@@ -65,7 +65,8 @@ function parseProducts(data: RawProduct[]): Product[] {
         image: product.product_image,
         specifications: product.specifications,
         number: product.Number,
-        brand: product.Owner,
+        carBrand: product.Owner,
+        productBrand: product.brand || '',
         price: product.price || '-',
     }));
 }

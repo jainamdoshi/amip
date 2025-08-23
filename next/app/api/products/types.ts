@@ -18,6 +18,7 @@ export type RawProduct = {
     Owner: string;
     Number: string;
     price?: string;
+    brand?: string;
 };
 
 export type RawCrossSearchResult = {
@@ -26,6 +27,8 @@ export type RawCrossSearchResult = {
             product_name: string;
             price?: string;
             specifications: ProductSpecification;
+            Owner: string;
+            category: string;
         };
         crosses: [
             {
@@ -51,6 +54,7 @@ export type Product = {
     image: string[];
     specifications: ProductSpecification;
     number: string;
-    brand: string;
+    carBrand: string;
     price: string | '-';
+    productBrand: string;
 };

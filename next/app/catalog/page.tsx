@@ -53,12 +53,12 @@ export default function Catalog() {
                 header: 'Product Number',
             },
             {
-                accessorKey: 'product_description',
-                header: 'Product Description',
+                accessorKey: 'carBrand',
+                header: 'Car Brand',
             },
             {
-                accessorKey: 'brand',
-                header: 'Brand Name',
+                accessorKey: 'productBrand',
+                header: 'Product Brand',
             },
             {
                 accessorKey: 'price',
@@ -177,7 +177,7 @@ export default function Catalog() {
                             <div className='relative md:w-2/3'>
                                 <Input
                                     type='text'
-                                    placeholder='Search Brand Name'
+                                    placeholder='Search Car or Product Brand'
                                     value={productBrand}
                                     onChange={(e) => onBranchSearchChange(e.target.value)}
                                     className=''
