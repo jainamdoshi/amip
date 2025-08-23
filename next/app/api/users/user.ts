@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { endpoint } from '../common';
 
 export async function generateUserId() {
+  return 'adf6a0be-6755-4636-9040-e1d2bf11ccba';
     const result = await fetch(`${endpoint}/catalog/generate-user-id`, {
         method: 'POST',
         headers: {
