@@ -1,7 +1,7 @@
 'use client';
 
 import { fetchProductDetails } from '@/app/api/products/products';
-import { CrossSearch } from '@/app/api/products/types';
+import { CrossSearch, RawModelAndEngineDetail } from '@/app/api/products/types';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -113,6 +113,7 @@ export default function ProductPage({
     }
 
     const specifications = productData?.product.specifications || {};
+    const modelAndEngineDetails: RawModelAndEngineDetail[] = productData?.model_and_engine_details || [];
 
     return (
         <main className='min-h-screen bg-gray-50'>
@@ -132,12 +133,15 @@ export default function ProductPage({
                 {/* Product Header */}
                 <div className='bg-white rounded-lg shadow-md p-8 mb-8'>
                     <div className='flex flex-row w-full justify-between'>
-                        <h1 className='text-3xl font-bold text-gray-900 mb-2'>{productData?.product.product_name}</h1>
+                        <h1 className='text-3xl font-bold text-gray-900 mb-2'>
+                            {productData?.product.product_name} ({productData?.product.Number})
+                        </h1>
                         <div className='text-gray-600 text-2xl'>{productData?.product.price || null}</div>
                     </div>
-                    <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
-                        {/* Product Images */}
-                        {/* <div className='space-y-4'>
+                    <div className='flex items-center gap-4 mb-4'></div>
+                    {/* <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'> */}
+                    {/* Product Images */}
+                    {/* <div className='space-y-4'>
                             <div className='relative h-96 bg-gray-100 rounded-lg overflow-hidden'>
                                 <Image src={productData.product_image[0]} alt={productData.product_name} fill className='object-cover' />
                             </div>
@@ -157,9 +161,40 @@ export default function ProductPage({
                             )}
                         </div> */}
 
-                        {/* Product Info */}
-                        <div className='space-y-6'>
-                            {/* Specifications */}
+                    <div className='space-y-6'>
+                        {modelAndEngineDetails.length > 0 && (
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Model and Engine Details</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>Brand</TableHead>
+                                                <TableHead>Manufacturer</TableHead>
+                                                <TableHead>Models</TableHead>
+                                                <TableHead>Engine Codes</TableHead>
+                                                <TableHead>Engine Capacities</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {modelAndEngineDetails.map((detail, index) => (
+                                                <TableRow key={index}>
+                                                    <TableCell>{detail.brand}</TableCell>
+                                                    <TableCell>{detail.manufacturer}</TableCell>
+                                                    <TableCell>{detail.mods.join(', ')}</TableCell>
+                                                    <TableCell>{detail.engine_code.join(', ')}</TableCell>
+                                                    <TableCell>{detail.engine_capacities.join(', ')}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </CardContent>
+                            </Card>
+                        )}
+
+                        {Object.entries(specifications).length > 0 && (
                             <Card>
                                 <CardHeader>
                                     <CardTitle className='text-lg'>Specifications</CardTitle>
@@ -175,9 +210,10 @@ export default function ProductPage({
                                     </div>
                                 </CardContent>
                             </Card>
+                        )}
 
-                            {/* Action Buttons */}
-                            {/* <div className='flex gap-3'>
+                        {/* Action Buttons */}
+                        {/* <div className='flex gap-3'>
                                 <Button className='bg-red-500 hover:bg-red-600 flex-1'>
                                     <ShoppingCart className='h-4 w-4 mr-2' />
                                     Request Quote
@@ -190,7 +226,7 @@ export default function ProductPage({
                                     <Share2 className='h-4 w-4' />
                                 </Button>
                             </div> */}
-                        </div>
+                        {/* </div> */}
                     </div>
                 </div>
 

@@ -28,20 +28,28 @@ export type RawCrossSearchResult = {
             price?: string;
             specifications: ProductSpecification;
             Owner: string;
+            Number: string;
             category: string;
+            brand: string;
+            description: string;
+            other_info: string;
         };
-        crosses: [
-            {
-                Owner: string;
-                Number: string;
-            }
-        ];
+        crosses: CrossSearch[];
+        model_and_engine_details?: RawModelAndEngineDetail[];
     };
 };
 
 export type CrossSearch = {
     Owner: string;
     Number: string;
+};
+
+export type RawModelAndEngineDetail = {
+    brand: string;
+    manufacturer: string;
+    mods: string[];
+    engine_code: string[];
+    engine_capacities: string[];
 };
 
 export type RawAllProductNamesResult = {
