@@ -33,9 +33,9 @@ export type RawCrossSearchResult = {
             brand: string;
             description: string;
             other_info: string;
+            model_and_engine_details?: RawModelAndEngineDetail[];
         };
         crosses: CrossSearch[];
-        model_and_engine_details?: RawModelAndEngineDetail[];
     };
 };
 

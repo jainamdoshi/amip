@@ -113,7 +113,7 @@ export default function ProductPage({
     }
 
     const specifications = productData?.product.specifications || {};
-    const modelAndEngineDetails: RawModelAndEngineDetail[] = productData?.model_and_engine_details || [];
+    const modelAndEngineDetails = productData?.product.model_and_engine_details || [];
 
     return (
         <main className='min-h-screen bg-gray-50'>
