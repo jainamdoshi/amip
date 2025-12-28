@@ -184,7 +184,7 @@ export default function ProductPage({
                                                     <TableCell>{detail.brand}</TableCell>
                                                     <TableCell>{detail.manufacturer}</TableCell>
                                                     <TableCell>{detail.mods.join(', ')}</TableCell>
-                                                    {detail.engine_code && <TableCell>{detail.engine_code.join(', ')}</TableCell>}
+                                                    <TableCell>{detail.engine_code?.join(', ') || ''}</TableCell>
                                                     <TableCell>{detail.engine_capacities.join(', ')}</TableCell>
                                                 </TableRow>
                                             ))}
