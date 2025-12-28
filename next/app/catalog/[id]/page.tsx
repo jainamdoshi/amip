@@ -1,10 +1,10 @@
 'use client';
 
 import { fetchProductDetails } from '@/app/api/products/products';
-import { CrossSearch, RawModelAndEngineDetail } from '@/app/api/products/types';
-import { Badge } from '@/components/ui/badge';
+import { CrossSearch } from '@/app/api/products/types';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useUserId } from '@/providers/userProvider';
 import { useQuery } from '@tanstack/react-query';
@@ -132,7 +132,14 @@ export default function ProductPage({
 
                 {/* Product Header */}
                 <div className='bg-white rounded-lg shadow-md p-8 mb-8'>
-                    <div className='flex flex-row w-full justify-between'>
+                    <div className='mb-4 p-4 bg-blue-50 rounded-lg'>
+                        <h3 className='font-medium text-blue-900 mb-2'>Need Help Choosing?</h3>
+                        <p className='text-blue-800 text-sm'>
+                            All listed parts are compatible with your vehicle. Contact our technical support team if you need assistance
+                            choosing the right manufacturer or have questions about compatibility.
+                        </p>
+                    </div>
+                    <div className='flex flex-row w-full justify-between pt-2'>
                         <h1 className='text-3xl font-bold text-gray-900 mb-2'>
                             {productData?.product.product_name} ({productData?.product.Number})
                         </h1>
@@ -162,55 +169,61 @@ export default function ProductPage({
                         </div> */}
 
                     <div className='space-y-6'>
-                        {modelAndEngineDetails.length > 0 && (
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Model and Engine Details</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <Table>
-                                        <TableHeader>
-                                            <TableRow>
-                                                <TableHead>Brand</TableHead>
-                                                <TableHead>Manufacturer</TableHead>
-                                                <TableHead>Models</TableHead>
-                                                <TableHead>Engine Codes</TableHead>
-                                                <TableHead>Engine Capacities</TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {modelAndEngineDetails.map((detail, index) => (
-                                                <TableRow key={index}>
-                                                    <TableCell>{detail.brand}</TableCell>
-                                                    <TableCell>{detail.manufacturer}</TableCell>
-                                                    <TableCell>{detail.mods.join(', ')}</TableCell>
-                                                    <TableCell>{detail.engine_code?.join(', ') || ''}</TableCell>
-                                                    <TableCell>{detail.engine_capacities.join(', ')}</TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </CardContent>
-                            </Card>
-                        )}
+                        <Accordion type='single' collapsible className='w-full'>
+                            {modelAndEngineDetails.length > 0 && (
+                                <AccordionItem value='model-and-engine'>
+                                    <AccordionTrigger>Model and Engine Details</AccordionTrigger>
+                                    <AccordionContent>
+                                        <Card>
+                                            <CardContent>
+                                                <Table>
+                                                    <TableHeader>
+                                                        <TableRow>
+                                                            <TableHead>Brand</TableHead>
+                                                            <TableHead>Manufacturer</TableHead>
+                                                            <TableHead>Models</TableHead>
+                                                            <TableHead>Engine Codes</TableHead>
+                                                            <TableHead>Engine Capacities</TableHead>
+                                                        </TableRow>
+                                                    </TableHeader>
+                                                    <TableBody>
+                                                        {modelAndEngineDetails.map((detail, index) => (
+                                                            <TableRow key={index}>
+                                                                <TableCell>{detail.brand}</TableCell>
+                                                                <TableCell>{detail.manufacturer}</TableCell>
+                                                                <TableCell>{detail.mods.join(', ')}</TableCell>
+                                                                <TableCell>{detail.engine_codes.join(', ')}</TableCell>
+                                                                <TableCell>{detail.engine_capacities.join(', ')}</TableCell>
+                                                            </TableRow>
+                                                        ))}
+                                                    </TableBody>
+                                                </Table>
+                                            </CardContent>
+                                        </Card>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            )}
 
-                        {Object.entries(specifications).length > 0 && (
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle className='text-lg'>Specifications</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className='space-y-3'>
-                                        {Object.entries(specifications).map(([key, value]) => (
-                                            <div key={key} className='flex justify-between border-b border-gray-100 pb-2'>
-                                                <span className='font-medium text-gray-600'>{key}</span>
-                                                <span className='text-gray-900'>{value}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        )}
+                            {Object.entries(specifications).length > 0 && (
+                                <AccordionItem value='specifications'>
+                                    <AccordionTrigger>Specifications</AccordionTrigger>
+                                    <AccordionContent>
+                                        <Card className='pt-3'>
+                                            <CardContent>
+                                                <div className='space-y-3'>
+                                                    {Object.entries(specifications).map(([key, value]) => (
+                                                        <div key={key} className='flex justify-between border-b border-gray-100 pb-2'>
+                                                            <span className='font-medium text-gray-600'>{key}</span>
+                                                            <span className='text-gray-900'>{value}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            )}
+                        </Accordion>
 
                         {/* Action Buttons */}
                         {/* <div className='flex gap-3'>
@@ -252,7 +265,6 @@ export default function ProductPage({
                             />
                         </div>
                     </div> */}
-
                     <div className='overflow-x-auto'>
                         <Table>
                             <TableHeader>
@@ -288,14 +300,6 @@ export default function ProductPage({
                                 )}
                             </TableBody>
                         </Table>
-                    </div>
-
-                    <div className='mt-6 p-4 bg-blue-50 rounded-lg'>
-                        <h3 className='font-medium text-blue-900 mb-2'>Need Help Choosing?</h3>
-                        <p className='text-blue-800 text-sm'>
-                            All listed parts are compatible with your vehicle. Contact our technical support team if you need assistance
-                            choosing the right manufacturer or have questions about compatibility.
-                        </p>
                     </div>
                 </div>
             </div>
