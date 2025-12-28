@@ -48,7 +48,7 @@ export type RawModelAndEngineDetail = {
     brand: string;
     manufacturer: string;
     mods: string[];
-    engine_code: string[];
+    engine_code?: string[];
     engine_capacities: string[];
 };
 
